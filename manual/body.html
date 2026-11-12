@@ -1,0 +1,376 @@
+<div class="layout">
+<header>
+<p class="kind">User Guide</p>
+<h1>AssimiLXR</h1>
+<p class="about">Unofficial firmware that runs the Erica Synths LXR-02 sound engine on the Rossum Electro-Music Assimil8or. Not affiliated with or endorsed by Erica Synths or Rossum Electro-Music.</p>
+<ul class="tour">
+<li><a href="#channels"><img alt="" src="screens/channels.png" width="128" height="128">Channels</a></li>
+<li><a href="#voice-pages"><img alt="" src="screens/amp.png" width="128" height="128">Voice pages</a></li>
+<li><a href="#cv-routes"><img alt="" src="screens/cvsrc.png" width="128" height="128">CV routes</a></li>
+<li><a href="#mixer"><img alt="" src="screens/mixer.png" width="128" height="128">Mixer</a></li>
+<li><a href="#fx-bus"><img alt="" src="screens/fxrev.png" width="128" height="128">FX bus</a></li>
+<li><a href="#kits"><img alt="" src="screens/kits.png" width="128" height="128">Kits</a></li>
+</ul>
+</header>
+
+<nav aria-labelledby="contents">
+<h2 id="contents">Contents</h2>
+<ol>
+<li><a href="#introduction">Introduction</a>
+<ol>
+<li><a href="#what-youll-need">What You’ll Need</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#going-back">Going Back</a></li>
+</ol></li>
+<li><a href="#overview">Overview</a>
+<ol>
+<li><a href="#from-the-lxr-02">Coming from the LXR-02</a></li>
+<li><a href="#from-the-assimil8or">Coming from the Assimil8or</a></li>
+<li><a href="#panel">The Panel</a></li>
+</ol></li>
+<li><a href="#detail">In Detail</a>
+<ol>
+<li><a href="#channels">Channels</a></li>
+<li><a href="#voice-pages">Voice Pages</a></li>
+<li><a href="#play-mode">1 Shot and Gated</a></li>
+<li><a href="#editing">Editing a Value</a></li>
+<li><a href="#cv-routes">CV Routes</a></li>
+<li><a href="#gates-pitch-accent">Gates, Pitch and Accent</a></li>
+<li><a href="#mixer">Mixer</a></li>
+<li><a href="#fx-bus">FX Bus</a></li>
+<li><a href="#kits">Kits</a></li>
+<li><a href="#morph">Morph</a></li>
+<li><a href="#mutate">Mutate</a></li>
+<li><a href="#kit-cv">Changing Kits from CV</a></li>
+<li><a href="#user-waves">Your Own Waveforms</a></li>
+<li><a href="#midi">MIDI</a></li>
+<li><a href="#utilities">Utilities</a></li>
+<li><a href="#card">Files</a></li>
+</ol></li>
+</ol>
+</nav>
+
+<main>
+<h2 id="introduction">Introduction</h2>
+<div class="screen">
+<figure><img alt="The start-up screen" src="screens/splash.png" width="256" height="256"><figcaption>The start-up screen</figcaption></figure>
+<div>
+<p>AssimiLXR replaces the Assimil8or’s sample player with the sound engine of the Erica Synths LXR-02 drum synthesizer. Each of the eight channels becomes an LXR voice with its own sound, on its own output.</p>
+<p>The sounds, their parameters and the effects are the LXR-02’s. This guide covers what’s different: how they’re reached from the Assimil8or’s panel and what AssimiLXR adds. For what each parameter does, see the <a href="https://www.ericasynths.lv/drum-synthesizer-lxr-02-1132/">LXR-02 manual</a>.</p>
+</div>
+</div>
+<p class="note"><b>Note</b> This is an independent project. It is not made, tested or supported by Erica Synths or Rossum Electro-Music. Report problems and ask questions at <a class="address" href="https://github.com/brandon-tallent/assimilxr/issues">github.com/brandon-tallent/assimilxr/issues</a>.</p>
+
+<h3 id="what-youll-need">What You’ll Need</h3>
+<ul>
+<li>An Assimil8or.</li>
+<li>Your micro SD card.</li>
+<li>The AssimiLXR <samp>app</samp> file from <a class="address" href="https://github.com/brandon-tallent/assimilxr/releases">github.com/brandon-tallent/assimilxr/releases</a>.</li>
+<li>Optional: LXR-02 kits (<samp>.snd</samp> files) from an LXR-02 card, or the Factory SD content and Sound Packs 1 and 2 from <a href="https://www.ericasynths.lv/drum-synthesizer-lxr-02-1132/">Erica Synths’ LXR-02 page</a>.</li>
+</ul>
+
+<h3 id="installation">Installation</h3>
+<ol>
+<li>Copy <samp>app</samp> to the root level of your micro SD card, and insert the card into the front panel slot.</li>
+<li>Select <b>Utilities &gt; Load Software</b> and click the encoder. Click the encoder again as instructed.</li>
+<li>When you see the success message, turn the encoder and then click it to restart.</li>
+<li>The AssimiLXR start-up screen appears, then the channel overview. Press any button to skip the start-up screen.</li>
+</ol>
+<p>On its first start, AssimiLXR keeps a copy of the Rossum software it replaced, and creates an <samp>AssimiLXR</samp> folder on the card for your kits.</p>
+
+<h3 id="going-back">Going Back</h3>
+<p>Select <b>Utilities &gt; Firmware &gt; Stock firmware</b> and click the encoder twice. The Rossum software AssimiLXR replaced is put back and the module restarts. Nothing needs to be downloaded. To return to AssimiLXR, leave its <samp>app</samp> on the card and use <b>Utilities &gt; Load Software</b> again.</p>
+<p>Your Assimil8or presets and samples are not touched by AssimiLXR.</p>
+
+<h2 id="overview">Overview</h2>
+
+<h3 id="from-the-lxr-02">Coming from the LXR-02</h3>
+<dl class="wide">
+<div><dt>Eight channels</dt><dd>Eight voices instead of seven, each with its own sound. Any channel can be any voice type (Drum, Snare, Cymbal, Hi-hat or open Hi-hat), so a kit can have four kicks.</dd></div>
+<div><dt>Eight outputs</dt><dd>Every channel has its own output. The mix outputs carry the stereo mix with the FX bus.</dd></div>
+<div><dt>Reverb</dt><dd>The FX bus has the reverb that the LXR-02 firmware leaves out, in stereo.</dd></div>
+<div><dt>CV control</dt><dd>Any sound parameter can follow any of the 24 CV inputs. Each channel has a gate input, and can take 1V/oct pitch and accent from CV.</dd></div>
+<div><dt>Audio inputs</dt><dd>External audio from the Sample inputs can go through the FX bus.</dd></div>
+<div><dt>Your own waveforms</dt><dd>Single-cycle waveforms and transients from the card, as the original LXR had.</dd></div>
+<div><dt>Kits</dt><dd>LXR-02 kits load as they are. AssimiLXR kits hold all eight channels, and a channel saves back to an LXR-02 kit.</dd></div>
+<div><dt>Units</dt><dd>Pitches and cutoffs are shown in Hz, fine tune in cents, envelope times in ms and pan as L, C or R.</dd></div>
+<div><dt>No sequencer</dt><dd>AssimiLXR is a sound module. Play it from a sequencer by MIDI or gates.</dd></div>
+</dl>
+
+<h3 id="from-the-assimil8or">Coming from the Assimil8or</h3>
+<dl class="wide">
+<div><dt>No samples</dt><dd>Channels play synthesized LXR voices, not samples. Presets, zones and sampling don’t apply.</dd></div>
+<div><dt>Play Mode</dt><dd>1 Shot and Gated, with the same button and LEDs.</dd></div>
+<div><dt>Same navigation</dt><dd>Buttons open one page each, the encoder moves and edits, and pressing a page’s button again shows its CV settings.</dd></div>
+<div><dt>Familiar CV</dt><dd>As on the Assimil8or, a parameter takes CV from its own channel’s A, B or C input, or from any other channel’s.</dd></div>
+<div><dt>Kits instead of presets</dt><dd><kbd>Load</kbd> and <kbd>Save</kbd> work with kits in the <samp>AssimiLXR</samp> folder.</dd></div>
+<div><dt>Kit CV</dt><dd>As with Inc/Dec Preset CV, triggers step to the next or previous kit or back to the first, and a voltage can pick the kit. The change is near instant: the kits are read ahead.</dd></div>
+</dl>
+
+<h3 id="panel">The Panel</h3>
+<table>
+<tr><th><kbd>1</kbd>–<kbd>8</kbd></th><td>Select a channel and play it.</td></tr>
+<tr><th><kbd>Channels</kbd></th><td>All eight channels, with their levels and kit browsing.</td></tr>
+<tr><th><kbd>Pitch</kbd></th><td>Oscillator</td></tr>
+<tr><th><kbd>Envelope</kbd></th><td>Amp envelope</td></tr>
+<tr><th><kbd>Play Mode</kbd></th><td>The selected channel between 1 Shot and Gated</td></tr>
+<tr><th><kbd>Phase Mod</kbd></th><td>FM</td></tr>
+<tr><th><kbd>Sample Start</kbd></th><td>Transient</td></tr>
+<tr><th><kbd>Sample End</kbd></th><td>Filter</td></tr>
+<tr><th><kbd>Loop Start</kbd></th><td>Modulation: pitch envelope and velocity</td></tr>
+<tr><th><kbd>Loop Mode</kbd></th><td>LFO</td></tr>
+<tr><th><kbd>Level</kbd></th><td>Mix: level, pan, sample rate, drive, output</td></tr>
+<tr><th><kbd>Pan/Mix</kbd></th><td>The mixer; again for the FX bus</td></tr>
+<tr><th><kbd>Sample</kbd></th><td>The channel’s voice type</td></tr>
+<tr><th><kbd>Sampling Setup</kbd></th><td>The channel’s pitch and accent inputs</td></tr>
+<tr><th><kbd>Zones</kbd></th><td>Morph</td></tr>
+<tr><th><kbd>Mutate</kbd></th><td>Mutate</td></tr>
+<tr><th><kbd>Load</kbd>, <kbd>Save</kbd></th><td>Kits</td></tr>
+<tr><th><kbd>Utilities</kbd></th><td>MIDI, audio inputs, waveforms, display, CV monitor, About, firmware</td></tr>
+</table>
+<p>The row of numbers at the bottom of every page shows the channels. The selected channel is highlighted, a channel lights while it sounds, and a dim number is a channel with no voice.</p>
+
+<h2 id="detail">In Detail</h2>
+
+<h3 id="channels">Channels</h3>
+<div class="screen">
+<figure><img alt="The Channels page with several channels playing" src="screens/channels.png" width="256" height="256"><figcaption>The Channels page</figcaption></figure>
+<div>
+<p>Press <kbd>Channels</kbd> for an overview of all eight channels: each one’s voice and a level meter.</p>
+<p>The loaded kit’s name shows at the top. Turn the encoder to browse kits: the kit, its folder and its place there show large. Click the encoder to load it into every channel.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="Choosing a channel's voice" src="screens/voice.png" width="256" height="256"><figcaption>Choosing a voice</figcaption></figure>
+<div>
+<p>At start the channels are Drum 1, Snare, Hi-hat, Drum 2, Drum 3, Cymbal and Open hat, with channel 8 empty.</p>
+<p>To change a channel’s voice, press <kbd>Sample</kbd>, turn to a voice type and click. The current one is marked. <b>None</b> leaves the channel silent.</p>
+<p>A hi-hat on one channel cuts off an open hi-hat ringing on any other, as on the LXR-02.</p>
+</div>
+</div>
+
+<h3 id="voice-pages">Voice Pages</h3>
+<div class="screen">
+<figure><img alt="The Oscillator page of Drum 1" src="screens/osc.png" width="256" height="256"><figcaption>Oscillator</figcaption></figure>
+<div>
+<p>Eight buttons (see <a href="#panel">The Panel</a>) open the sections of the selected channel’s voice, in the LXR-02’s order. The dots at the top right show which section is open.</p>
+<p>The parameters, their ranges and their meaning are the LXR-02’s. Some show units: the oscillator’s pitch in Hz (with its fine tune), fine tune in cents, filter cutoff in Hz, attack and decay in ms, LFO rate in Hz and pan as L, C or R.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="The Amp envelope page" src="screens/amp.png" width="256" height="256"><figcaption>Amp envelope</figcaption></figure>
+<div>
+<p>Below the parameters, the Oscillator page draws the waveform, the Amp page the envelope with its total length, and the Filter page the filter’s response.</p>
+<p>A section a voice doesn’t have (the snare has no FM) says so.</p>
+</div>
+</div>
+
+<h3 id="play-mode">1 Shot and Gated</h3>
+<p>As on the Assimil8or, <kbd>Play Mode</kbd> switches the selected channel between two play modes, and its two LEDs show which the channel is in:</p>
+<ul>
+<li><b>1 Shot</b> (the default): a hit plays out its whole envelope, as on the LXR-02.</li>
+<li><b>Gated</b>: the sound fades out (over about 5&nbsp;ms) when the channel’s gate input goes low, its MIDI note ends, or you let go of its channel button. Hold the gate for a long hit, cut it short for a choked one.</li>
+</ul>
+<p>The play mode is saved in AssimiLXR kits.</p>
+
+<h3 id="editing">Editing a Value</h3>
+<div class="screen">
+<figure><img alt="Editing the decay" src="screens/edit.png" width="256" height="256"><figcaption>Editing</figcaption></figure>
+<div>
+<p>Turn the encoder to highlight a parameter. Click to edit it: the value shows large, with its position in the range. Turn to change it and click again when you’re done.</p>
+<p>Hold the encoder down while turning to move in steps of 1/16 of the range. <kbd>DATA 2</kbd> sets the highlighted value directly.</p>
+</div>
+</div>
+
+<h3 id="cv-routes">CV Routes</h3>
+<div class="screen">
+<figure><img alt="Choosing the CV input for the filter cutoff" src="screens/cvsrc.png" width="256" height="256"><figcaption>Choosing an input</figcaption></figure>
+<div>
+<p>Every sound parameter can follow a CV input. Press a section’s button again to see its CV page: each parameter shows its input and amount, or <samp>--</samp> for none.</p>
+<p>Highlight a parameter and click to choose the input. <b>A</b>, <b>B</b> and <b>C</b> are the selected channel’s own inputs; <b>1A</b> to <b>8C</b> are any channel’s. The input’s voltage shows at the top right.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="Setting the CV amount" src="screens/cvamt.png" width="256" height="256"><figcaption>Setting the amount</figcaption></figure>
+<div>
+<p>Click again to set the amount, from −100 to +100, and click once more to finish. Hold the encoder down while turning to move in steps of 10.</p>
+<p>CV is bipolar. The inputs read −5&nbsp;V to +5&nbsp;V, and +5&nbsp;V moves the parameter up by the amount’s share of its range; −5&nbsp;V moves it down as far. With an amount of +50, +5&nbsp;V moves a 0–127 parameter up by 63.</p>
+<p>On the ordinary page, a parameter with a CV route has an amber mark beside its name. The FX bus parameters are shared by all channels, so their routes are too.</p>
+</div>
+</div>
+
+<h3 id="gates-pitch-accent">Gates, Pitch and Accent</h3>
+<div class="screen">
+<figure><img alt="The channel's pitch and accent inputs" src="screens/inputs.png" width="256" height="256"><figcaption>Sampling Setup</figcaption></figure>
+<div>
+<p>A rising edge at a channel’s gate input plays it.</p>
+<p>Press <kbd>Sampling Setup</kbd> to give the channel a pitch input and an accent input, each one of its own A, B or C:</p>
+<ul>
+<li><b>Pitch CV</b> transposes the voice by 12 semitones a volt, so it can be played from a 1V/oct sequencer.</li>
+<li><b>Accent CV</b> sets the velocity of each gate: 0&nbsp;V is the softest, 5&nbsp;V the hardest.</li>
+</ul>
+</div>
+</div>
+
+<h3 id="mixer">Mixer</h3>
+<div class="screen">
+<figure><img alt="The mixer" src="screens/mixer.png" width="256" height="256"><figcaption>The mixer</figcaption></figure>
+<div>
+<p>Press <kbd>Pan/Mix</kbd> for the mixer. Each channel has a strip: level, pan, FX send and mute, top to bottom.</p>
+<p>Press a channel button to pick its strip and turn the encoder to pick the field; its name and value show at the top. Click to edit it, or to switch the mute.</p>
+<p>The FX send feeds the channel to the FX bus while it stays on its own output and in the mix.</p>
+</div>
+</div>
+<p>Each channel’s own output always carries it. The <b>Output</b> setting on the Mix page (<kbd>Level</kbd>) decides how it reaches the mix outputs: <b>Stereo 1</b> and <b>Stereo 2</b> by its pan, <b>Left</b> or <b>Right</b> on one side only, or <b>FX bus</b> through the FX bus alone.</p>
+
+<h3 id="fx-bus">FX Bus</h3>
+<div class="screen">
+<figure><img alt="The FX bus set to the reverb" src="screens/fxrev.png" width="256" height="256"><figcaption>The FX bus</figcaption></figure>
+<div>
+<p>Press <kbd>Pan/Mix</kbd> a second time for the FX bus: the LXR-02’s distortion, ring modulator, compressor and delay, and the reverb. The reverb’s tail is stereo.</p>
+<p>Sounds reach the bus by a channel’s FX send, by a voice’s Output set to FX bus, and from the Sample inputs (see <a href="#utilities">Audio inputs</a>).</p>
+</div>
+</div>
+
+<h3 id="kits">Kits</h3>
+<div class="screen">
+<figure><img alt="Browsing LXR-02 kits" src="screens/kits.png" width="256" height="256"><figcaption>Loading a kit</figcaption></figure>
+<div>
+<p>Press <kbd>Load</kbd> to browse the <samp>AssimiLXR</samp> folder on the card and its folders. Turn to a kit and click to load it. The top right says where it goes:</p>
+<ul>
+<li><b>ALL</b>: from the Channels page or the mixer, a kit loads into every channel.</li>
+<li><b>CH n</b>: from any other page, it loads into the selected channel.</li>
+</ul>
+<p>An LXR-02 kit (<samp>.snd</samp>) gives each channel the sound of its voice type, and leaves the voice types as they are. An AssimiLXR kit (<samp>.kit</samp>) sets everything: each channel’s voice and sound, mute, FX send, play mode, CV routes and morph kit, and the morph amount.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="The Save page" src="screens/save.png" width="256" height="256"><figcaption>Saving</figcaption></figure>
+<div>
+<p>Press <kbd>Save</kbd> to save. Highlight <b>Name</b> and click to name the kit: turn for each character and click for the next. Names have up to 8 characters, as on the LXR-02.</p>
+<p><b>Type</b> chooses an <b>8-channel kit</b> (<samp>NAME.kit</samp>, all eight channels) or an <b>LXR .snd</b>: the selected channel as an LXR-02 kit, which an LXR-02 loads. Highlight <b>Save</b> and click.</p>
+<p>A kit of the same name is replaced. With no name, the kit is numbered.</p>
+</div>
+</div>
+
+<h3 id="morph">Morph</h3>
+<div class="screen">
+<figure><img alt="The Morph page" src="screens/morph.png" width="256" height="256"><figcaption>Morph</figcaption></figure>
+<div>
+<p>Morph works as on the LXR-02: each channel can hold a second kit, and <b>Amount</b> blends every parameter between the two. Press <kbd>Zones</kbd> for the Morph page.</p>
+<ul>
+<li><b>Morph kit</b> opens the kit browser. The kit you choose becomes the morph kit of every channel.</li>
+<li><b>Clear morph</b> removes the morph kits.</li>
+<li><b>Save blend</b> saves the sound you hear as a new kit.</li>
+</ul>
+<p>Press <kbd>Zones</kbd> again to give the amount a CV route. <kbd>DATA 2</kbd> and MIDI (NRPN 120, as on the LXR-02) set it too.</p>
+</div>
+</div>
+
+<h3 id="mutate">Mutate</h3>
+<div class="screen">
+<figure><img alt="The Mutate page" src="screens/mutate.png" width="256" height="256"><figcaption>Mutate</figcaption></figure>
+<div>
+<p>Press <kbd>Mutate</kbd>, set the amount and click the encoder: every sound parameter of the voice moves by a random step of up to that share of its range. Level, pan and the other Mix settings stay as they are. Click again for another variation.</p>
+<p>From the Channels page or the mixer, Mutate works on all eight channels and says <b>ALL</b>; from anywhere else, on the selected channel.</p>
+</div>
+</div>
+
+<h3 id="kit-cv">Changing Kits from CV</h3>
+<div class="screen">
+<figure><img alt="The Kit CV page" src="screens/kitcv.png" width="256" height="256"><figcaption>Utilities &gt; Kit CV</figcaption></figure>
+<div>
+<p>Kits can change from CV, as presets do on the Assimil8or with Inc/Dec Preset CV. Select <b>Utilities &gt; Kit CV</b> and give any of these an input, from <b>1A</b> to <b>8C</b>:</p>
+<ul>
+<li><b>Next kit</b> and <b>Previous kit</b> step one kit on each trigger. They stop at the last and first kit.</li>
+<li><b>First kit</b> goes back to the first kit.</li>
+<li><b>Select kit</b> picks the kit by voltage: 0 to 5&nbsp;V is shared evenly among the kits.</li>
+</ul>
+</div>
+</div>
+<p>A trigger fires above 1.7&nbsp;V and is ready again below 1.5&nbsp;V, as on the Assimil8or. The kits are the ones the Channels page steps through: those in the folder you last loaded a kit from with <kbd>Load</kbd>. That folder is remembered when the module restarts.</p>
+<p>The folder’s kits (up to 64) are read into memory when Kit CV is first used and whenever the folder changes, so a change from CV doesn’t wait for the card. All eight channels have their new sounds within about 3&nbsp;ms. A gate that arrives in the same moment may play part of the old kit.</p>
+
+<h3 id="user-waves">Your Own Waveforms</h3>
+<p>Like the original LXR, AssimiLXR plays waveforms from the card:</p>
+<ul>
+<li>WAV files in <samp>AssimiLXR/osc</samp> are single cycles. They appear after the built-in waveforms in every oscillator’s Waveform list.</li>
+<li>WAV files in <samp>AssimiLXR/transients</samp> are one-shots of up to 2 seconds. They appear after the built-in transients.</li>
+</ul>
+<p>Each folder gives up to 16, in name order, as 16, 24 or 32-bit PCM or 32-bit float, mono or stereo. They load at start, and again with <b>Utilities &gt; Reload waves</b> after you change the card.</p>
+
+<h3 id="midi">MIDI</h3>
+<div class="screen">
+<figure><img alt="The MIDI settings" src="screens/midi.png" width="256" height="256"><figcaption>Utilities &gt; MIDI</figcaption></figure>
+<div>
+<p>MIDI follows the LXR-02’s implementation: a MIDI channel and note for each voice, the same controller and NRPN numbers, and a global channel that plays the selected channel. A voice’s note plays every channel set to that voice. These settings are on <b>Utilities &gt; MIDI</b>.</p>
+<p>Controllers 120 (All Sound Off) and 123 (All Notes Off) end every held note, gate and button instead of setting LFO&nbsp;5 rate and LFO&nbsp;2 amount.</p>
+<p><b>Velocity</b>, at the top of the list, sets how MIDI velocity changes the volume. <b>Kit</b> (the default) follows each channel’s Velocity level in its kit; <b>Global</b> applies velocity to every channel. It is saved on the card.</p>
+<p>Two more channels, at the end of the list, are AssimiLXR’s own:</p>
+<ul>
+<li><b>Chroma 8 channel</b> (16 by default) works like the Assimil8or’s Chroma 8 assignment: each block of eight keys from note 36 plays one channel, the fifth key at the kit’s tuning and the others transposed.</li>
+<li><b>GM drum channel</b> (10 by default) plays General MIDI drum notes on the first channel with that voice.</li>
+</ul>
+</div>
+</div>
+<p>MIDI clock sets the tempo that synced LFOs and the delay follow. Without it the tempo is 120 BPM. <b>Utilities &gt; About</b> shows the tempo.</p>
+
+<h3 id="utilities">Utilities</h3>
+<div class="screen">
+<figure><img alt="The Utilities list" src="screens/util.png" width="256" height="256"><figcaption>Utilities</figcaption></figure>
+<div>
+<dl>
+<div><dt>MIDI</dt><dd>The MIDI settings above.</dd></div>
+<div><dt>Kit CV</dt><dd>Inputs that change the kit (see <a href="#kit-cv">Changing Kits from CV</a>).</dd></div>
+<div><dt>Audio inputs</dt><dd>How much of the Sample inputs goes to the FX bus and straight to the mix, with their levels.</dd></div>
+<div><dt>Reload waves</dt><dd>Reads your waveforms from the card again.</dd></div>
+<div><dt>Display</dt><dd>The display’s brightness.</dd></div>
+<div><dt>CV monitor</dt><dd>All 24 CV inputs in volts, and the gates.</dd></div>
+<div><dt>About</dt><dd>The build and the tempo.</dd></div>
+<div><dt>Firmware</dt><dd>Switching back to the Rossum software, or loading a new AssimiLXR.</dd></div>
+</dl>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="The CV monitor" src="screens/mon.png" width="256" height="256"><figcaption>CV monitor</figcaption></figure>
+<div>
+<p>The CV monitor shows each channel’s A, B and C inputs in volts, and its gate (<b>G</b>). Readings within 0.05&nbsp;V of zero are gray.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="The Firmware page" src="screens/fw.png" width="256" height="256"><figcaption>Firmware</figcaption></figure>
+<div>
+<p><b>Stock firmware</b> puts back the Rossum software AssimiLXR replaced, and restarts. <b>Load from card</b> installs an <samp>app</samp> file from the card, such as a newer AssimiLXR, after checking it. Each asks for a second click.</p>
+<p>If an installed AssimiLXR stops for 20 seconds, at start-up or while playing, the module puts the Rossum software back by itself and restarts. To return to AssimiLXR, use <b>Utilities &gt; Load Software</b> again.</p>
+</div>
+</div>
+
+<h3 id="card">Files</h3>
+<p>AssimiLXR keeps everything on the front card in its <samp>AssimiLXR</samp> folder. It doesn’t change your Assimil8or presets, samples or other folders, and switching between AssimiLXR and the Rossum software converts or deletes nothing.</p>
+<h4>Front card</h4>
+<table>
+<tr><th><samp>AssimiLXR/</samp></th><td>Your kits, in any folders you like</td></tr>
+<tr><th><samp>AssimiLXR/osc/</samp></th><td>Single-cycle waveforms</td></tr>
+<tr><th><samp>AssimiLXR/transients/</samp></th><td>Transients</td></tr>
+<tr><th><samp>AssimiLXR/glo.cfg</samp></th><td>The voice MIDI channels and notes, as the LXR-02 keeps them; an LXR-02’s file can be copied in</td></tr>
+<tr><th><samp>AssimiLXR/AssimiLXR.cfg</samp></th><td>The Chroma 8 and GM drum channels, Velocity, display, audio input and Kit CV settings, and the kit folder</td></tr>
+</table>
+<p>LXR-02 kits can be copied into <samp>AssimiLXR</samp> straight from an LXR-02 card, folders and all.</p>
+<h4>System card</h4>
+<p>The module’s internal card holds the firmware:</p>
+<table>
+<tr><th><samp>app</samp></th><td>The firmware the module starts</td></tr>
+<tr><th><samp>appold</samp></th><td>The one before it. <b>Load Software</b> and <b>Load from card</b> move <samp>app</samp> here.</td></tr>
+<tr><th><samp>appstock</samp></th><td>The Rossum software, copied on AssimiLXR’s first start and never changed. <b>Stock firmware</b> puts it back.</td></tr>
+</table>
+
+<h3>Support</h3>
+<p>Everything about the sounds works as described in the <a href="https://www.ericasynths.lv/drum-synthesizer-lxr-02-1132/">LXR-02 manual</a>.</p>
+</main>
+
+<footer>
+<p>Problems and questions: <a class="address" href="https://github.com/brandon-tallent/assimilxr/issues">github.com/brandon-tallent/assimilxr/issues</a></p>
+<p>Source code: <a class="address" href="https://github.com/brandon-tallent/assimilxr">github.com/brandon-tallent/assimilxr</a></p>
+<p>AssimiLXR by Brandon Tallent. GPL-3. The LXR sound engine is © Erica Synths, GPL-3. “LXR”, “LXR-02” and “Erica Synths” are trademarks of Erica Synths; “Assimil8or” is a trademark of Rossum Electro-Music.</p>
+</footer>
+</div>

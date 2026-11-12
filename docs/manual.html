@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="User guide for AssimiLXR, unofficial firmware that runs the Erica Synths LXR-02 sound engine on the Rossum Electro-Music Assimil8or.">
+<meta name="theme-color" content="#fafaf8">
+<title>AssimiLXR: User Guide</title>
+<style>
+:root { color-scheme:light; --paper:#fafaf8; --ink:#202523; --muted:#535d57; --line:#d4d9d4; --accent:#1d5a7a; --tip:#8a5a00; --screen:16rem; }
+* { box-sizing:border-box; }
+html { scroll-padding-top:1.5rem; }
+body { margin:0; background:var(--paper); color:var(--ink); font:1.125rem/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+.layout { max-width:40rem; margin:0 auto; padding:clamp(2rem,8vw,5rem) 1.25rem 4rem; }
+a { color:var(--accent); text-underline-offset:.2em; }
+a:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+p, ol, ul, dl, table { margin:0 0 1.25rem; }
+
+header .kind { margin:0 0 .75rem; color:var(--muted); font-weight:600; }
+h1 { font-size:clamp(2rem,6vw,2.75rem); line-height:1.12; letter-spacing:-.035em; font-weight:650; margin:0 0 1.5rem; }
+header .about { color:var(--muted); }
+.tour { display:flex; flex-wrap:wrap; gap:1.25rem 1.5rem; margin:2rem 0 0; padding:0; list-style:none; }
+.tour a { display:block; color:var(--muted); font-size:.875rem; text-decoration:none; }
+.tour a:hover { color:var(--accent); }
+.tour img { display:block; width:8rem; height:8rem; margin-bottom:.4rem; }
+img { image-rendering:pixelated; background:#000; border-radius:.25rem; }
+
+nav { margin:2.5rem 0 0; padding:1.5rem 0; border-block:1px solid var(--line); font-size:1rem; }
+nav h2 { margin:0 0 .75rem; font-size:.875rem; font-weight:600; color:var(--muted); }
+nav ol { margin:0; padding:0; list-style:none; }
+nav li { margin:0; padding:0; }
+nav > ol > li { margin-bottom:.75rem; }
+nav > ol > li:last-child { margin-bottom:0; }
+nav a { display:block; padding:.15rem 0; color:var(--ink); font-weight:600; text-decoration:none; }
+nav ol ol a { color:var(--muted); font-weight:400; }
+nav ol ol ol { padding-left:1rem; }
+nav a:hover { color:var(--accent); text-decoration:underline; }
+
+main h2 { margin:4.5rem 0 1.25rem; padding-top:2rem; border-top:1px solid var(--line); font-size:1.875rem; line-height:1.2; letter-spacing:-.025em; font-weight:650; }
+main > h2:first-child { margin-top:3rem; padding-top:0; border-top:0; }
+h3 { margin:3rem 0 .9rem; font-size:1.375rem; line-height:1.3; letter-spacing:-.015em; font-weight:650; }
+h4 { margin:2.25rem 0 .6rem; font-size:1.125rem; line-height:1.4; font-weight:650; }
+h3 + h4 { margin-top:1.25rem; }
+li { margin-bottom:.5rem; padding-left:.25rem; }
+ol, ul { padding-left:1.4rem; }
+li::marker { color:var(--muted); }
+b { font-weight:650; }
+
+/* A panel button or knob, and a line of text as the display shows it. */
+kbd { font:inherit; font-size:.9em; font-weight:600; padding:.08em .4em .1em; background:#fff; border:1px solid #c3cac4; border-bottom-width:2px; border-radius:.3rem; white-space:nowrap; }
+samp { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.88em; }
+
+/* A screen beside the paragraphs that describe it. */
+.screen { display:grid; grid-template-columns:minmax(0,1fr) var(--screen); gap:0 1.75rem; align-items:start; margin-bottom:1.25rem; }
+.screen figure { grid-column:2; grid-row:1; margin:.3rem 0 0; }
+.screen > div { grid-column:1; grid-row:1; }
+.screen > div > :last-child { margin-bottom:0; }
+.screen + .screen { margin-top:1.75rem; }
+.screen img { display:block; width:var(--screen); height:var(--screen); }
+figcaption { margin-top:.5rem; color:var(--muted); font-size:.875rem; }
+
+/* Fields and features: a name and what it does. */
+dl > div { display:grid; grid-template-columns:7rem minmax(0,1fr); gap:0 1.25rem; padding:.8rem 0; border-bottom:1px solid var(--line); }
+dl > div:first-child { border-top:1px solid var(--line); }
+dl.wide > div { grid-template-columns:11.5rem minmax(0,1fr); }
+dt { font-weight:650; }
+dd { margin:0; }
+dd > :last-child { margin-bottom:0; }
+dd ul { margin-top:.6rem; }
+
+.note { margin:1.75rem 0; padding:.1rem 0 .1rem 1.1rem; border-left:3px solid var(--accent); }
+.note b:first-child { display:block; margin-bottom:.15rem; color:var(--accent); font-size:.875rem; }
+.note.tip { border-color:var(--tip); }
+.note.tip b:first-child { color:var(--tip); }
+
+table { width:100%; border-collapse:collapse; text-align:left; }
+th, td { padding:.7rem 1.25rem .7rem 0; border-bottom:1px solid var(--line); vertical-align:top; }
+tr:first-child > * { border-top:1px solid var(--line); }
+th { width:11.5rem; font-weight:650; }
+td { padding-right:0; }
+
+footer { margin-top:4.5rem; padding-top:1.5rem; border-top:1px solid var(--line); color:var(--muted); font-size:.875rem; }
+footer p { margin-bottom:.6rem; }
+.address { overflow-wrap:anywhere; }
+
+@media (max-width:36rem) {
+  .screen { display:block; }
+  .screen figure { margin:0 0 1.25rem; }
+  .screen > div > :last-child { margin-bottom:1.25rem; }
+  dl > div, dl.wide > div { display:block; }
+  dt { margin-bottom:.2rem; }
+  th { width:40%; }
+}
+@media (min-width:68rem) {
+  .layout { display:grid; grid-template-columns:13rem minmax(0,40rem); grid-template-areas:"nav header" "nav main" "nav footer"; gap:0 4.5rem; justify-content:center; max-width:none; }
+  header { grid-area:header; }
+  main { grid-area:main; }
+  main > h2:first-child { margin-top:3.5rem; padding-top:2rem; border-top:1px solid var(--line); }
+  footer { grid-area:footer; }
+  nav { grid-area:nav; position:sticky; top:1.5rem; align-self:start; max-height:calc(100vh - 1.5rem); overflow-y:auto; margin:0; padding:.35rem 0 2rem; border:0; font-size:.9375rem; }
+}
+@media print {
+  html { font-size:9.4pt; }
+  body { background:none; }
+  .layout { display:block; max-width:none; padding:0; }
+  nav, .tour { display:none; }
+  main h2 { break-before:page; margin-top:0; border-top:0; padding-top:0; }
+  main > h2:first-child { break-before:auto; margin-top:2rem; padding-top:0; border-top:0; }
+  h3, h4 { break-after:avoid; }
+  .screen figure, .note, dl > div, tr, li { break-inside:avoid; }
+  a { color:inherit; text-decoration:none; }
+  kbd { background:none; }
+  @page { margin:18mm 20mm; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<header>
+<p class="kind">User Guide</p>
+<h1>AssimiLXR</h1>
+<p class="about">Unofficial firmware that runs the Erica Synths LXR-02 sound engine on the Rossum Electro-Music Assimil8or. Not affiliated with or endorsed by Erica Synths or Rossum Electro-Music.</p>
+<ul class="tour">
+<li><a href="#channels"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADr0lEQVR42u2dTW7jMAxGc4wuZzm9wfQWPUeBOWLnap0ABgwjkiiSEiXbeh+8cBVFcfhEUb/p44HQ6vpJtCe+5MnmTzMc/9SXk81ffc6bWL+aXjVoY7r1ee5W/XsBSB1CTgcAAM4NoNRGC213+qeQnrbm+hiABzz0hhbSfTWdICyll3o1mt4OAABAN3QpANaBWK90YWClDP6MoBFCCCHUoo8/H1wTL2ogQuiM+v73Lb+6X+M/fQnrVwHEGSuO6608IL1/cYs0j95vggD8fL49r1k377/fn9fxpicAfUr6KgA6A5DzAAAAawOwlr9uL0iwQhpOs5mrYdn36Qih22gLEb/QJOUB7AvfwjuP6+PYsSeAo0FLxsXosR7gAJB1CCFlTxzpSVsH/Dw3fgCpcWW/2VLSPBpvWxGAqUoKpnyp3SUwAHhrad/1tVtuuAAwBwBBOAOgWiuzsdTRBNGdZSAGgMUBoKtORzsW6JUzzCwG1A3q2xUBgG57I4RdEdbdROnCTtxqzJR1R+HGvznnaEpfEyQsYcZ5wJUA+JqgbNWWlySVq5sA6ByEZSRLA2gJwicHsEQ31PouITLTCUIIobMMvqpDqmERCACBBzRCj35cDEBjf6blgEYQgLm7o9ObngD6HtAAQBMAOU8VQFwMuAyAalsRByC03b8GAI0t4g5oMADWAgg6oKHxP4QQQoFNv6YXxFQEUxEAYCoi4qC2xkwDfivifiPh2EX5vj9VsLQHAODmAKwlL90NHT8VQTcUIYTOEgYaQ4WvV8MBjagOIgACAWgmHjQHNEIBmLYuD7jpMxWhH3ZNP6BxGQCm4VIjgJEHNAAw+XzAigCsKQRhfzfUtx7AAY05/SgEgJu2Wli/pynHTxozWp68bAIA1ff09XB8Sz2Pfr8ncZKVSO2SZNCuiBbfahwrXAlA3L8wcQDoNV2xHADf9vS40fK6HtAS3hedrtD8pyn9XH/3JojpCka/AEAAiNLX36/twhRzrJ+9RwCgCUIn8YCd0M4pTUE0QQBAxACEEEIIIYQQQgghtGvbJKS8Hsm0s3w5yt/2MykvR/nRzwMAAACgHcDTdnoAWzl6ANtLyi8smyAt//jpSgDW59mlBFDZCWp9oNJiZIlNCW3JQFkAJQxC+UoPqOYvVQglgN30RQbtHmACUC2/HYBcgaz5BeeL8oDoJsjqAbLLW8tv9Ei5YZzgAXJYHvCFxwOQ3aIDADmICdtPIoKwFYC1CXI8jwmAswmiG8o4YBUA/wE16G+FujLJUAAAAABJRU5ErkJggg==" width="128" height="128">Channels</a></li>
+<li><a href="#voice-pages"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAD4UlEQVR42u2cUY7cIAyG5xB96GMfd27QfewNeo6R9ojbq3VHTRWNgjGGQDDw/UIVcUg28YcNCZne/v7+nlVuqK4AUF2Pj8ez7PXXyrZrN0YBJHf9bxDIYj8crtjTvcfc8krvix7fNw/NboqLjQDsDtXtYd3i/dkAJLNTUwBh0CS97xCA4vF0CtosXQBsFWNisbfsHgHiZs0xwNKjVx4DugE4bx8RQJ1pKAAAAID1ANzf7ls53L64t9pm8kG3+EFMdJN4SAGA3GnrMABWfhUBAF7GAQAACF2r95/vlI6FHogQcqfPP59bebWEbQpOO8nUselakOh3ALx6X6w3BCAGxMGiN9vPM18oJF9V6cYmEXBwd9I+JQDx37wB4LU7WwDE+vuhwQpjgOh668hRFgFi4poyAoyfzCh9v0kKsgMYnYEdQKx9CQAxgehDrp6UxmVgWQgKAbj9kAmhzgH17y3/D9RJAoDXbLWgR8J7t1gqAxDri3j/UNct1wEIw0KxzAHyDAAxi4hGE4Dci4gdNWg0JHue7gHdYzUBHK5sUADJOLbcl+h6EZsVgOLcMxfqeQyoDkA8KjsC6l7o3AAs57ROQ7MG4ax06TP/KJMLyzRUzyKJFHRNz0IA8AHgmreGvPIp/CpivlXcjmsGJSti831R0gtA3pqwxaivvSjGpQCElbwUVLYAOdP6V0UAJSNibAwAwJkIKElHZQBWTkHhDxE7AGA0LomAWLfVv05kELZ8HnHRJ72oz7MbTgAAQgghNPzslf+VwAMAMChPoLHNagB+fbs9CwwOL2P0Tf3YW+THjRqAnQGhoACI+TT5ozkTAEJBeQmmOzf2k6ESAMuGQsxfZSnI+tZABLBmKCR7sdKpw3x1KgIYFS6dhioAwOACAIOzCwCEQn8AYHABAAwuAIDBBQAwuAAABhcAwOACABjyvN8IABhMaud6MDgCAAYXAA4YINEHAAHhBQAYXABYPS85AbBuQHgDsFxA+ASwUEA4BzB/QAwBYGYSYwGYkMSgAOYhMTqA4UlMA2BUEvMBGIzExADGILECANcklgIgkugMY00AjsICAJ3DAr93hoGvO8PAv51h4NPOMPBjZxj4rjMM/MWSKkIIIbSm9jE6q3J/uz8LlVgFAAAAAADGAIAQQpfp8fGwlz2pGcuC7QEAAACcB6DYw7+67bLfQFb7WEul/V4aXY9+/lAJNqKX7QD26zDecFn7psDK2hsB7MYog/MRkOVQ/barACjr0bkpqGEEtE5BuRGQm1KaRmSyA10dAdVD+GTEXABAueU6APRdFw96BSmr6aQgF0BhCmIaynPAKgC+ADHYmLZjmbJVAAAAAElFTkSuQmCC" width="128" height="128">Voice pages</a></li>
+<li><a href="#cv-routes"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADaklEQVR42u2dTW7cMAxGfYQuu+wyc4PmFj1HgF6u+/Rq7aAeCK4oURRtybL1PgiBR6I9Yz6R+hknWf78+FpVFnSsANDcw79eZT0OlRqAYtPLQMhSH52u1JfvzWx5oveTLzUAi4GNz6F6vTy2eP9uAIrZqSkAGTRF798QQG0KOgrAemBMLHbLoQCEIcHUzXcCYAyQg3BXAPvr7wHAMw0FAAAAMB+Ax9tjLftfRu7SjIsLXfdCLOmm5CkOALXT1ssAmHkrAgBsxgEAAAj11fv3d8qJhR6IZh+E/23OfUP/K2xhNi3PN0oD2K4wsx8x35S8lFIzOAC5sVws+ncABQB2zzpsBve7BLCIb9WNAJSabeIxAYj6b64XJzv7PAB0yygO9gKQZgqk7SmXyD+HAJD5J/rZHMBtIiD5/WIx4+ceBwJAjwhIAjhyDABAQwD29F2cX848C8o9FVGehqLzF2KoHwA0nD5/f4aCN84BkDxGZwKQYaHUKJFUZaObTQRAr7GfJe19V55uDNBjogpAdPG7Avj4+bEtyZq6CFCSgMWVvhrJjBSUtW8KgEE4kTosA6wjBTEII4TQKNNQcu4QQzEaaEfIMgsCXg8AVRsPCADX2YpwAyAFjRIB6PhZUNVWBDCag8HFAJh1bcw85wR3s1oeYv6D0K3V52E8SvJXCl4AvqAuAgAAAACACwDYLghy11KakpdSagCw+DzrsBnZ7+ssxd6aMw710sAJIOq/uV6c7OxXAaB4Ldmq0OoBQJopkLanDJt/Vifk3JpsHR3A4BGwXRxtnZsDIFsBcGYKUgDokQSAikE4crd8qQSBH4A9fRfnl9cCwEIMAAgAAEAAAAACAABQlWeFANDb+3oNAPp5X6kHAAAAAAAAAAAALSegymQUAEQAAAAAAAAAAAAAAAAAJqQFAAAAAAAAAAAABgYQnux9vD2ehYM9BwAAAAAAcDEAiFkQABAA5gJAOfMPNiGEEEIIIYQQQlMo+u8+ennar3vcxjKhPQAAAID9AJR6+a5rk/0Gquxzlop9KI0+j359qQKbpJftAMLnMN6wz74pMJ+9EUCozDLYHwFVDtVv+xAAvh5dm4IaRkDrFFQbAbUppWlEFjtQ7wg4PIR3RkwHAMotHwNAb+o86DlSVtNJQS0AZwpiGso6YBYAfwGxmBEHzQZVQwAAAABJRU5ErkJggg==" width="128" height="128">CV routes</a></li>
+<li><a href="#mixer"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAACcElEQVR42u3dS07DMBAA0ByDJUt6A3oLzhGp918WBJIV6k/ifJX4jbxozaglfvXYSSntnl9vVa0T6waALaJ/9MPb4e7f7WFPVxjlUYDnb6Rdo4jzh3en5J9o9IcjPrwR93eFIZ4NMLF/dKBPCvAyA5I9WYDR6gRgSQlKYMTju7wEAUiUmtzk2GINiKv5FIDR/HOtAaHov6y6+wG0PAOWbkMBXBMgN+gA9gMYVvyFj3NNgNqE5AlUoT/8dJXHcSlCAAAgAAgxO+6fd+3A5hUoGo/3mjBcAK4LEO84ywC1O9TW8gEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgAvm3j1to8V0AZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANgVwD/tOyYAAAAAAACAf9E/+iqA+PviytFa/gjA8C8X/9rPE8SdAWBifniK1vIBAABgDTjTGmAXZBsKAAAAAAAOAoh3VMlW2IYmW2Ebd+18AAAAADgTgEXYLggAAADOAyzCdkEAwlsN8XsOSYBCfvIAWshfChDaRIBcfu4ALp8P4OQAStDBJQgAgIYBbEOdB7ga6lKEa0EAAAAAAAAAAAAAAAAQF47hBe7RNv28PPndBS3kAwAAYDlAoT/5kcHkpwZzB1CVn8ss5OfeMlzr9yk/fhwjNslRng5QeIOiPKBV+ZuCzcufCBA6swbLZ0DVgJYPexWAea/o2hK04QzYugTVzoDakrLpjBx9Ae09A1afwgtnzA4AhUNeB6D8o50XvRkla9NNQS3AzBJkG+o8oBWAb9wE70NQBpK9AAAAAElFTkSuQmCC" width="128" height="128">Mixer</a></li>
+<li><a href="#fx-bus"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAEVklEQVR42u2dS27cMAxA5xhddtncoLlFzxGgR0yvlgYJYAwsiSIp6mPrEV5Madm1+URRomnn8UCQ3eUjkUN5amM9iXye0iE7Wr+qVwJI/6nU7979AbAcAKuxABATAEp7fYHEFAPwgKEeoL8MYkCXGAAAAAAAAOEAskFVWOgRhBEEQRAEmSWvv1/ZJm70QGRz+fjz43P7iUySPIDnBWqqFDRVMTUeL9kbjzqzFkC2aar0XeL6ADpd6ggAafc5aTp1rt4A0ruothHu/XT7eQDyuUqa02UpQS4OoJ8m2ANuA8DUsTQaeXCLBCC46qU9oDoEae59qAeYznOhIai0SxkgtQCqnugOws/K6wbh6gCgNI4EAJm8EEPGAUBWlPd/79+b3MZ35ukVCKfqvMEXYLORYK/LASgVf0wvQKkDyGpOLnJoDqXmqLkAshUxpfJWpaaLB2R94mRH31GzhqCSRdJdPg0AtN5gAqCHBAA/gLSCT4jkAOjoAT5NAABljD2U1QbCUXPnoNnJSdUD3EG4bxXsIl1767UbRlgFADBi8hBuO5oOvCUtOXL07cvWQzYBoJ8pFaePz24hQBJSEdnzTExOjJzmlt7b9eeCqh5zrZXBGADC1FYLwGd0ABhy4G4A6VhUGnBKSdM7AXCnK4IBnH7stoDI9vo6AE0nFcKyPgjPTU4Mng71SkUIvRshCcFqGWkxLvYtfXzBl41gYGmNonMACPUN1ccvmwDQPJ+xfZnEmlS4azra6gH6x/0AiIwB1Zq7EQBuPwSVlBovMX8cqcUD7hqEGwE0zYKEtNo+QTjt0dWRqtqGxMM1Ew8AmJx4AMDSeZ7wtwouPX8VNLb5DwBalm/BVREtmpLDReFfE0b3qoj2Goj7rajThbG2KkLTbaMA6CuOru4BnqoIjdVMyQnfWwV3GoLCAJh8Qlhg3xJAWBAWDOELwo+kBkJ51EbT0NVW3QgAWIdjAqRHVOiVikA086KOqQhACgDiUxE7JBVil2O9ANw+qRCbF7IBcBSjAyAsBrSnIgDQ9ILGI+55AKPQnFQEAEgqsKJGHIbDdtNiAKafNgvKAtA/acFvWlMRpXm9fm0MgKZUBAAmpyLcABiCesWAnV/QWDcIpy3xgHVTEQiCII5UhLJly+xzn684BVdFKCsYyXmYZ0H6qggNEjmHkXW1kubSiZD4qoisCfTn0Q9B91iFhL2gofeAkQAey38DNrgqQgmgWksRCGDxoBJcFWH1AOuEBwCeIPzwvnxRjcP6P5C1cjAgFYEgCIJUY8XXXxjmR+wPAAAAAAC4BgAEQZBh8vb3Tb99tn/59aLfNmwPAAAAoB2AoE//1+9d+hswtS+1FNofW6frkc+fSoVN1sp6AMd1KG/Y174rMF97JYBDWWTQ7gEmg8q3HQLA16OtQ1BHD+g9BFk9wDqkdPXIagca7QHhLtzoMQMACLccA0DeNTjoOYasrpMCKwDnEMQ0lHXALgD+AwAcdfdH8mv+AAAAAElFTkSuQmCC" width="128" height="128">FX bus</a></li>
+<li><a href="#kits"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADN0lEQVR42u2cWU7sMBBFexl88knvAHbBOlpiic3WoEVLEfJQvuUhk89R9ARux4l9U0NX/LhcAE7G7ev2OJafg4/C3j8Rdnv8kXeo4jhHX/3/P6gCxL9624sDesdBgLEC2LdxdP+zeKF9CWB4m9ktQI8B1QIY7v7EMeC/TSR/VX1CowXkTj/Z6tewmgCukIAAawRhVn9LATCFSgFyX6CKMbYY5LEGAAAAWJOP9w+ODQ+eQAAAAAAAAIA/7t/3YgsAAJwzADwPoyV3in1W0JIcMDmU3Se4hDjIAcJvbnotZ9mjKeuVPCsQVbnnvQsQP1/GA4UAnQWw/x0tgO6C7Hs+qgDxxJItgReOFyUXGEQL0K3hbALsJAZ4BUi6TQRAgLXSUEUAY+Sk78qNb6Szh09DAWbi5/PlcbzCRqQFWDbsB43GQMFO/6D/0hKPHLTE4xQvp1/rGALEk1nmIw5qLEqxRRQ7qYcy8pEEiB9VffURoFWAumnYCxq7hToBko6r8c73JYCyQPZq6haQCwwV7u48AvRyC4NckBFvjLCMAAjQkIa68sJkTtkYA3IOUI83RxIAEGAaAeCE5WjXroiKa7ErQn1RXhxHf1Ez9a4IZdcCAgzcFbE3AabbFWH7bkUqYy9F9dvgSXdFuNzCOAuYd1cEAmyQhua2WNmp4cXcimski8kLsSsCAGC/pYheHl/03ZQi1HO9WVB12WP2UgQCDC9FKOa8jgAzliKKRQVRAKWk4fLdU5QitnJBlCI2DsKUItz/T7giWRQFoBQBALBNDBDfB3TZA+H9HjBdKaIldxJbisJP/bciEGCDUoQogJIaii1Fy5vub0UkjUP3wt0FmKsUobwT7uiC9NrfLKUIMS1BgIGliF4xoDoNpRQBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaW5fN/149L++XfVjwv4IgAAI0C6A0R5f9fmRPgFX/1xPo/9yDLofe/yYgjbJVdYFWO5DnHBd/6GC1fUXBVgasxq0W4BrQe1pdxGg7on2uqCBFjDaBXktwOtShlpk8QFa2wK6m3CjxawggDHlPgLYH60c9Cpc1tCkwCtApQsiDeV7wCwC/AIZfJcH6AGmawAAAABJRU5ErkJggg==" width="128" height="128">Kits</a></li>
+</ul>
+</header>
+
+<nav aria-labelledby="contents">
+<h2 id="contents">Contents</h2>
+<ol>
+<li><a href="#introduction">Introduction</a>
+<ol>
+<li><a href="#what-youll-need">What You’ll Need</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#going-back">Going Back</a></li>
+</ol></li>
+<li><a href="#overview">Overview</a>
+<ol>
+<li><a href="#from-the-lxr-02">Coming from the LXR-02</a></li>
+<li><a href="#from-the-assimil8or">Coming from the Assimil8or</a></li>
+<li><a href="#panel">The Panel</a></li>
+</ol></li>
+<li><a href="#detail">In Detail</a>
+<ol>
+<li><a href="#channels">Channels</a></li>
+<li><a href="#voice-pages">Voice Pages</a></li>
+<li><a href="#play-mode">1 Shot and Gated</a></li>
+<li><a href="#editing">Editing a Value</a></li>
+<li><a href="#cv-routes">CV Routes</a></li>
+<li><a href="#gates-pitch-accent">Gates, Pitch and Accent</a></li>
+<li><a href="#mixer">Mixer</a></li>
+<li><a href="#fx-bus">FX Bus</a></li>
+<li><a href="#kits">Kits</a></li>
+<li><a href="#morph">Morph</a></li>
+<li><a href="#mutate">Mutate</a></li>
+<li><a href="#kit-cv">Changing Kits from CV</a></li>
+<li><a href="#user-waves">Your Own Waveforms</a></li>
+<li><a href="#midi">MIDI</a></li>
+<li><a href="#utilities">Utilities</a></li>
+<li><a href="#card">Files</a></li>
+</ol></li>
+</ol>
+</nav>
+
+<main>
+<h2 id="introduction">Introduction</h2>
+<div class="screen">
+<figure><img alt="The start-up screen" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAGPElEQVR4nO2djY3dIAzHk+qGuHmaBW6OJ3WaSm+OLsDNc1tQqVEjzjbmz9dLIP6pql6IMQYMwSGXLIthGIZhGIZhGIZh3IkVlPMf7zTnn68O9tAS60uJ6UH0I3l5y+yAlr8hQtwO//HuP95798FAkKbA2+dHUkL0Ar3zm7D++WrSwa305BYKtk+6A4yuQFMQgtLbhwMiMst3sdj8G57VZ+qYnqk6oOaCVjZ+SdOLc+4L5sl6JpmC1j5tLapt623oCLi4H/XjGF4ksdUyHe0ApMgp8dgSvHgZ+tbPTYhliMzViC3Bk+2LyDReBYklESMQmbsxyUV4XJqNgFNYxx839x0B6zWihJaBWJMw+JX3REdcFxiGYRiGYRiGYRjGdHjvxd9g3h09JcsGEdCwstJPpthcLtyvtr5FL14B7Mm4oCbrupLEIwVXFWbxTLkik1VWQemiMWGVQwvF1iC1KDGbjwAwhYx3nhLTz0mmI3NUVulhvfj/sULx9um/JfnPfcKu5inF+PzJJLd0XZKoUuzJre8AO2L++yRwigFk8CH2gKYO0AGvh3sxuTyUKUE7ACkslCmYZA4nWqXrni5DDKgpHYSYkds+9WsHwzAMwzAMIxv36cTfA+F6VkGIA44ytp/bciouZYn7dGVGXqeOq1Kr/Qc/JKYrlSGncvNu3xP1VhPLikmG6XoFa6pQyKFx/wEeJrUlVRHcp9v/HYf8h65BT49pVkosqH7hvSDFfQiHy1ROBSKiziMx9NYyzcUzWKvqRzsgy76aymx9puBwVkFsqHHkyr5M3w0FHS1WvOIjm3RFAc+GBmw/NyKca7PeW0oV6i8Adpduuc6KyDDyGSu449b+SArxhVe4hhOzk3XbEG3kWhiZXBa32ZJUrvt6EJcVPTk4ABQJ5ZHoSTmVdZHgUR6pXXq9xCumB0Q8L/d6RbgyANQ1g3mz4jKFQw8S05WPAN6rO6LDKnHKVh3FJI0EqYnpslRx0h3Ap5HwUFy/87y9I1KOojC347suT4UOACMgsG74rbrte17dlfCzyv2M2F25pCrdY8KKkNbgKXcMxJxFXkYDhljd6yBrs97c92UdF0HekuShkBIB6VMqfk1eIgtccCtKCeIUbSK6qu4cNxvEhm4YEMUoCMReFsQ1BwrEwKAfR9lkXxqpqtf8GhI7YuIoFoXrcawgcfoq2ygtNrJyv6z9jphyqEQxWa12QHIVB7dZ+2W8p/HdzalwwO2815gxyh11Yzpc4Hez+uDbbZ8JvK5J3Nf0eZA/wqZIiofu/3KL64kdglYhwvr+jG5Jl6BhgmcCXbvIS18LxHwI7wAtDpjvmcBNDQCRbbvmu3hvt30mEFelbAgqwkvvHbErPxO4VfgpyUsKIof1cfKZO2LuassPw5DJGmWzRkwv3RE75QaIy19ET9DZ2o5YDOW6RO5gx4SR/QCX2tXizyDxxCERY048IEKEYwGRA4JMIq8oHIKMQOygoLb6k7lLsKqL6Vcechqa8qej69nyH7trFXldBzkO4PMpHpuEwrG/9Y0NiC0+6YtTvGLVfF1lGIZhGIZhGKeCv5m6x5uG/QgvpW//9wGTVfvqHcBf/E5eV82/kRGeJT/0N1zvIKoK3jo8JMlGFH/zV4wnX/fvI2/2j32QYMqBCE1BF3E6P6P7a29PP722K/sWyL2ITfThYWy+ItOIrtYD14AbdYPYaqfjL2aPMS9NfK1Mic8J6yq/cXYR7A+1L7knTFZB5HMx4Vn9k2ZJ4ZDjYktUgYuxULlo8DCrWDCYQiKvrLhsScVryCfZlLXZMvpTEc0/5uVT3xmaY5Zv/FgK/55iMSv28TqwoDGml7JrQIj+FS3+/ayseXwN5HlBRFtMWDd70H4yDMOYjcevR718rpJiOhUkR8KPX4/9H/mN2BEK1/MoVaWYwdOJcFYV2tZXsI80vV4Y3k9K1z6whiPZdTOIS8VkknlFVY3HR+j4uR2QZc0Dq7moFuktvYljfhbTr+SqGQTRm3HP309SmTCFnCIWPH8/m3jEUyoRYbc2NEPsS8VmvAqxlmkZCSsFkFOV1vQjtGr/fZhKbM6tQmV95bDw6PzdEXgrK2XvZxGzHkxPLEU8zDJD1IyUwvOKh9d0O8MwjEXlL9pi4xscy5HHAAAAAElFTkSuQmCC" width="256" height="256"><figcaption>The start-up screen</figcaption></figure>
+<div>
+<p>AssimiLXR replaces the Assimil8or’s sample player with the sound engine of the Erica Synths LXR-02 drum synthesizer. Each of the eight channels becomes an LXR voice with its own sound, on its own output.</p>
+<p>The sounds, their parameters and the effects are the LXR-02’s. This guide covers what’s different: how they’re reached from the Assimil8or’s panel and what AssimiLXR adds. For what each parameter does, see the <a href="https://www.ericasynths.lv/drum-synthesizer-lxr-02-1132/">LXR-02 manual</a>.</p>
+</div>
+</div>
+<p class="note"><b>Note</b> This is an independent project. It is not made, tested or supported by Erica Synths or Rossum Electro-Music. Report problems and ask questions at <a class="address" href="https://github.com/brandon-tallent/assimilxr/issues">github.com/brandon-tallent/assimilxr/issues</a>.</p>
+
+<h3 id="what-youll-need">What You’ll Need</h3>
+<ul>
+<li>An Assimil8or.</li>
+<li>Your micro SD card.</li>
+<li>The AssimiLXR <samp>app</samp> file from <a class="address" href="https://github.com/brandon-tallent/assimilxr/releases">github.com/brandon-tallent/assimilxr/releases</a>.</li>
+<li>Optional: LXR-02 kits (<samp>.snd</samp> files) from an LXR-02 card, or the Factory SD content and Sound Packs 1 and 2 from <a href="https://www.ericasynths.lv/drum-synthesizer-lxr-02-1132/">Erica Synths’ LXR-02 page</a>.</li>
+</ul>
+
+<h3 id="installation">Installation</h3>
+<ol>
+<li>Copy <samp>app</samp> to the root level of your micro SD card, and insert the card into the front panel slot.</li>
+<li>Select <b>Utilities &gt; Load Software</b> and click the encoder. Click the encoder again as instructed.</li>
+<li>When you see the success message, turn the encoder and then click it to restart.</li>
+<li>The AssimiLXR start-up screen appears, then the channel overview. Press any button to skip the start-up screen.</li>
+</ol>
+<p>On its first start, AssimiLXR keeps a copy of the Rossum software it replaced, and creates an <samp>AssimiLXR</samp> folder on the card for your kits.</p>
+
+<h3 id="going-back">Going Back</h3>
+<p>Select <b>Utilities &gt; Firmware &gt; Stock firmware</b> and click the encoder twice. The Rossum software AssimiLXR replaced is put back and the module restarts. Nothing needs to be downloaded. To return to AssimiLXR, leave its <samp>app</samp> on the card and use <b>Utilities &gt; Load Software</b> again.</p>
+<p>Your Assimil8or presets and samples are not touched by AssimiLXR.</p>
+
+<h2 id="overview">Overview</h2>
+
+<h3 id="from-the-lxr-02">Coming from the LXR-02</h3>
+<dl class="wide">
+<div><dt>Eight channels</dt><dd>Eight voices instead of seven, each with its own sound. Any channel can be any voice type (Drum, Snare, Cymbal, Hi-hat or open Hi-hat), so a kit can have four kicks.</dd></div>
+<div><dt>Eight outputs</dt><dd>Every channel has its own output. The mix outputs carry the stereo mix with the FX bus.</dd></div>
+<div><dt>Reverb</dt><dd>The FX bus has the reverb that the LXR-02 firmware leaves out, in stereo.</dd></div>
+<div><dt>CV control</dt><dd>Any sound parameter can follow any of the 24 CV inputs. Each channel has a gate input, and can take 1V/oct pitch and accent from CV.</dd></div>
+<div><dt>Audio inputs</dt><dd>External audio from the Sample inputs can go through the FX bus.</dd></div>
+<div><dt>Your own waveforms</dt><dd>Single-cycle waveforms and transients from the card, as the original LXR had.</dd></div>
+<div><dt>Kits</dt><dd>LXR-02 kits load as they are. AssimiLXR kits hold all eight channels, and a channel saves back to an LXR-02 kit.</dd></div>
+<div><dt>Units</dt><dd>Pitches and cutoffs are shown in Hz, fine tune in cents, envelope times in ms and pan as L, C or R.</dd></div>
+<div><dt>No sequencer</dt><dd>AssimiLXR is a sound module. Play it from a sequencer by MIDI or gates.</dd></div>
+</dl>
+
+<h3 id="from-the-assimil8or">Coming from the Assimil8or</h3>
+<dl class="wide">
+<div><dt>No samples</dt><dd>Channels play synthesized LXR voices, not samples. Presets, zones and sampling don’t apply.</dd></div>
+<div><dt>Play Mode</dt><dd>1 Shot and Gated, with the same button and LEDs.</dd></div>
+<div><dt>Same navigation</dt><dd>Buttons open one page each, the encoder moves and edits, and pressing a page’s button again shows its CV settings.</dd></div>
+<div><dt>Familiar CV</dt><dd>As on the Assimil8or, a parameter takes CV from its own channel’s A, B or C input, or from any other channel’s.</dd></div>
+<div><dt>Kits instead of presets</dt><dd><kbd>Load</kbd> and <kbd>Save</kbd> work with kits in the <samp>AssimiLXR</samp> folder.</dd></div>
+<div><dt>Kit CV</dt><dd>As with Inc/Dec Preset CV, triggers step to the next or previous kit or back to the first, and a voltage can pick the kit. The change is near instant: the kits are read ahead.</dd></div>
+</dl>
+
+<h3 id="panel">The Panel</h3>
+<table>
+<tr><th><kbd>1</kbd>–<kbd>8</kbd></th><td>Select a channel and play it.</td></tr>
+<tr><th><kbd>Channels</kbd></th><td>All eight channels, with their levels and kit browsing.</td></tr>
+<tr><th><kbd>Pitch</kbd></th><td>Oscillator</td></tr>
+<tr><th><kbd>Envelope</kbd></th><td>Amp envelope</td></tr>
+<tr><th><kbd>Play Mode</kbd></th><td>The selected channel between 1 Shot and Gated</td></tr>
+<tr><th><kbd>Phase Mod</kbd></th><td>FM</td></tr>
+<tr><th><kbd>Sample Start</kbd></th><td>Transient</td></tr>
+<tr><th><kbd>Sample End</kbd></th><td>Filter</td></tr>
+<tr><th><kbd>Loop Start</kbd></th><td>Modulation: pitch envelope and velocity</td></tr>
+<tr><th><kbd>Loop Mode</kbd></th><td>LFO</td></tr>
+<tr><th><kbd>Level</kbd></th><td>Mix: level, pan, sample rate, drive, output</td></tr>
+<tr><th><kbd>Pan/Mix</kbd></th><td>The mixer; again for the FX bus</td></tr>
+<tr><th><kbd>Sample</kbd></th><td>The channel’s voice type</td></tr>
+<tr><th><kbd>Sampling Setup</kbd></th><td>The channel’s pitch and accent inputs</td></tr>
+<tr><th><kbd>Zones</kbd></th><td>Morph</td></tr>
+<tr><th><kbd>Mutate</kbd></th><td>Mutate</td></tr>
+<tr><th><kbd>Load</kbd>, <kbd>Save</kbd></th><td>Kits</td></tr>
+<tr><th><kbd>Utilities</kbd></th><td>MIDI, audio inputs, waveforms, display, CV monitor, About, firmware</td></tr>
+</table>
+<p>The row of numbers at the bottom of every page shows the channels. The selected channel is highlighted, a channel lights while it sounds, and a dim number is a channel with no voice.</p>
+
+<h2 id="detail">In Detail</h2>
+
+<h3 id="channels">Channels</h3>
+<div class="screen">
+<figure><img alt="The Channels page with several channels playing" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADr0lEQVR42u2dTW7jMAxGc4wuZzm9wfQWPUeBOWLnap0ABgwjkiiSEiXbeh+8cBVFcfhEUb/p44HQ6vpJtCe+5MnmTzMc/9SXk81ffc6bWL+aXjVoY7r1ee5W/XsBSB1CTgcAAM4NoNRGC213+qeQnrbm+hiABzz0hhbSfTWdICyll3o1mt4OAABAN3QpANaBWK90YWClDP6MoBFCCCHUoo8/H1wTL2ogQuiM+v73Lb+6X+M/fQnrVwHEGSuO6608IL1/cYs0j95vggD8fL49r1k377/fn9fxpicAfUr6KgA6A5DzAAAAawOwlr9uL0iwQhpOs5mrYdn36Qih22gLEb/QJOUB7AvfwjuP6+PYsSeAo0FLxsXosR7gAJB1CCFlTxzpSVsH/Dw3fgCpcWW/2VLSPBpvWxGAqUoKpnyp3SUwAHhrad/1tVtuuAAwBwBBOAOgWiuzsdTRBNGdZSAGgMUBoKtORzsW6JUzzCwG1A3q2xUBgG57I4RdEdbdROnCTtxqzJR1R+HGvznnaEpfEyQsYcZ5wJUA+JqgbNWWlySVq5sA6ByEZSRLA2gJwicHsEQ31PouITLTCUIIobMMvqpDqmERCACBBzRCj35cDEBjf6blgEYQgLm7o9ObngD6HtAAQBMAOU8VQFwMuAyAalsRByC03b8GAI0t4g5oMADWAgg6oKHxP4QQQoFNv6YXxFQEUxEAYCoi4qC2xkwDfivifiPh2EX5vj9VsLQHAODmAKwlL90NHT8VQTcUIYTOEgYaQ4WvV8MBjagOIgACAWgmHjQHNEIBmLYuD7jpMxWhH3ZNP6BxGQCm4VIjgJEHNAAw+XzAigCsKQRhfzfUtx7AAY05/SgEgJu2Wli/pynHTxozWp68bAIA1ff09XB8Sz2Pfr8ncZKVSO2SZNCuiBbfahwrXAlA3L8wcQDoNV2xHADf9vS40fK6HtAS3hedrtD8pyn9XH/3JojpCka/AEAAiNLX36/twhRzrJ+9RwCgCUIn8YCd0M4pTUE0QQBAxACEEEIIIYQQQgghtGvbJKS8Hsm0s3w5yt/2MykvR/nRzwMAAACgHcDTdnoAWzl6ANtLyi8smyAt//jpSgDW59mlBFDZCWp9oNJiZIlNCW3JQFkAJQxC+UoPqOYvVQglgN30RQbtHmACUC2/HYBcgaz5BeeL8oDoJsjqAbLLW8tv9Ei5YZzgAXJYHvCFxwOQ3aIDADmICdtPIoKwFYC1CXI8jwmAswmiG8o4YBUA/wE16G+FujLJUAAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>The Channels page</figcaption></figure>
+<div>
+<p>Press <kbd>Channels</kbd> for an overview of all eight channels: each one’s voice and a level meter.</p>
+<p>The loaded kit’s name shows at the top. Turn the encoder to browse kits: the kit, its folder and its place there show large. Click the encoder to load it into every channel.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="Choosing a channel's voice" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADKklEQVR42u2cW07EMAxFuww++YQdwC5Yx0izRNgaII1UjfJwbDdu2vRc5aOTZgr1qR/xDCy/Xy+msaC+AoBVt/stP1iP15fJ2drLRbByE8BvJs188nZhvv30qFfGAch51Cbzl2Ury84h3H/ToPJ8fqyx/ukAJO6ySPbdHUDuNE3rz+YBj5khAB4HysCiXxnEoJgJ+oSgXgBmzQG1rDssCXf0gLMACC9DAQAAAABgCADTAmuyrb3FAcBattKKQAAAAAIAQok+Pz4ZAwdPICIJ/49XNEgFAM/by4gfGXTZqQDEGSuO6+QAErfI1+j95rIAVjs/G1wFQD+TnwVAwiCxthmAvAYAsumfBwBm9ACNickB7RyQpNOiyZppWaiCKIQkAAgAVwKADqfvn+91xF0cO0s2Kh4f+crzA0jcIl9j9RsAGADoZ/KzAOgMQF7TBEAOGAkAu4cDkA0NAGcZWjRcMy3LbwEGQgjRikC0ImhFoF1bEYSgka0IPAAAtCIAMKoVQRmKEEJX70YgCsSzASg6hDBTa2AgcwjS1O/6dgVyeoO1Pce2KxyAcrdMCBoMAAP2b0XoQxBJGCGErtKK4KPgwa0IAMS2IvKiU9N1KM5g4T4AlvrnwMIVALArAOWnmygEQA0JFu4GwDoDgE3dCMdXE4VJjLxrkYoAcLGNMerzjOv3UOyEwwHQihgJoBl/NK0I4pg54vtCEK2I8ByQQ6IVcaAkzE4YAJMCkP/yQhOCaEUghNBptgJx2YXdcudWBAACAWg+bNF0TGlX+AE4ZmhXnAMA7QonAN8/7WO33N8D9KkbAM4yVJmEe4Ug2hXUhQBAAJhwJ4wMGRgAxwLgqIvQphBk/eo5gQsA0yVh+cvozeYE2hsApgssQx3/PQIhhBBCCCGEEEIIHU23+00//te/v73rxwXXAwAAANgOQJjPf+rjlP4GTOtrK4X16wj6feTr52qwKVpZD2D9PZQ37FsfCsy3Xglgnawy2O4BJoPKt90FgO+JtoagQA+IDkFWD7CGlFCPbD5Ae3tAdxfe6DE7ABBuuQ8A+dTOSc8RskKLAisAZwiiDGUfcBUAf5C3BwL/gLBuAAAAAElFTkSuQmCC" width="256" height="256"><figcaption>Choosing a voice</figcaption></figure>
+<div>
+<p>At start the channels are Drum 1, Snare, Hi-hat, Drum 2, Drum 3, Cymbal and Open hat, with channel 8 empty.</p>
+<p>To change a channel’s voice, press <kbd>Sample</kbd>, turn to a voice type and click. The current one is marked. <b>None</b> leaves the channel silent.</p>
+<p>A hi-hat on one channel cuts off an open hi-hat ringing on any other, as on the LXR-02.</p>
+</div>
+</div>
+
+<h3 id="voice-pages">Voice Pages</h3>
+<div class="screen">
+<figure><img alt="The Oscillator page of Drum 1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAEGElEQVR42u2cWY4bIRBA+xD5yGc+xzfIfOYGOYelOeLkajOWLLUclqKgWQp4JTTqxnihXm1gPMfX359Z7UDqCgCqy/3j/mjO7dnj3B6ClpMAvjzR9DtPF/rT1qMe2VP7rxevJPzbsJZl5xDmn1So3O9fa7RvHIDjEGkAyejUFIDvNEnt2wcgOEQYQG4IqgXgeaEMLPqRkwEoyAEai94nB/gxR87JDQFc758UQIUyFAAAAMB+AJw53t5uz9b2NrnQLV6IBdUUfEoBgNyydRoAO29FAIDNOAAAAEH6yvvvd9rAhgUiJOFH+4UMkjCA1xXmwpMPzk4z8eSY14fklwoAWFvp8kw1iqs1Jg+Az1zoOTs1PRYA+Bca5Qqz8F/H2bnKAyB/rPMNhJ5cu7APIDZH385kPZQDcN5A4zf2AWh8NDYjpak5t4UANPYetBprIUhpp7VygD++N4C5yqG6AIKDtWVoMuUGsWkStTUAwY/n3+aWoRlJGBm/EEP6AUAsyue/z7O9dqIZ50hA7rO02kfFSj1mMbgEwPeGoIv4nQsDkJ0gePRGxSCmx1g4el7vE6ycg9x6Y78aggDgG74tALuFILseQBJuBeB8KAhjEw9QZtTgudUVjnMjCLL8PkTFgnLJrBCL7+YALJmNm2dRucLJqoJ8AMkNDPulVKzE9KsdTWe2B8TWvfLSTL9+9v/OUobGwpG/aaEC4KjAt1PNVkRyN0kGbD+CyUovB1Cg7uBWBACO//+rgjYEvepUtm4h3F8BMEsOL/OAS0lYUFBBEp4RQMyQY7ukwZ/ostpBEMTuVoRmKdQ0QCe/kxDSu/0NjDpbEUPmPC+A7IVY7iIrVgXJziRUXMIrz3ggQ3mWohxAWUEpf80pQ5queNWuCTR7OLk1vgxAPlexDIDkWYo8W06mB805idiYVT2gNwBlxXWETt4BIF2bJvNtWRI+ck5CTrSDxD4EgiAIgiAIso3wPxjH6/3PjyPYIDFG75Boq3q93gUS6LO36sFwSfu1VO9jQMP9DB9XMGH4uIIt7cNgvPZh0C/okxLMGT6uYEv7OzKwpv29GNjU/i4MLGt/fQb2tb8sg+HlZhmDWT7t2TCawUZD2CRsUjjAAO2zeIQB2mcDkS10ttD5EgkGaH8dBmh/WEog6I90BVQ/zBUw/GEYUH01DBypn4AEeu9Ngp9VIQiCIMhuNUDFi9vb7dE2vwAAAAAAgDkAIAiCdJP7x13fzqCmbBuOBwAAAHAdgNDvv+vzIf0EssbHRgrjz9bo88iv70uCTVDLegDn51BOuGx8U2Bl45UAzs4og+sekKVQedpVAJRZdG4IaugBrUNQrgfkhpSmHpk0oN4eUN2FL3pMBwDClOsAkB/qnPQKQlbToiAXQGEIogxlHbALgG/p386Bvcrg7wAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>Oscillator</figcaption></figure>
+<div>
+<p>Eight buttons (see <a href="#panel">The Panel</a>) open the sections of the selected channel’s voice, in the LXR-02’s order. The dots at the top right show which section is open.</p>
+<p>The parameters, their ranges and their meaning are the LXR-02’s. Some show units: the oscillator’s pitch in Hz (with its fine tune), fine tune in cents, filter cutoff in Hz, attack and decay in ms, LFO rate in Hz and pan as L, C or R.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="The Amp envelope page" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAD4UlEQVR42u2cUY7cIAyG5xB96GMfd27QfewNeo6R9ojbq3VHTRWNgjGGQDDw/UIVcUg28YcNCZne/v7+nlVuqK4AUF2Pj8ez7PXXyrZrN0YBJHf9bxDIYj8crtjTvcfc8krvix7fNw/NboqLjQDsDtXtYd3i/dkAJLNTUwBh0CS97xCA4vF0CtosXQBsFWNisbfsHgHiZs0xwNKjVx4DugE4bx8RQJ1pKAAAAID1ANzf7ls53L64t9pm8kG3+EFMdJN4SAGA3GnrMABWfhUBAF7GAQAACF2r95/vlI6FHogQcqfPP59bebWEbQpOO8nUselakOh3ALx6X6w3BCAGxMGiN9vPM18oJF9V6cYmEXBwd9I+JQDx37wB4LU7WwDE+vuhwQpjgOh668hRFgFi4poyAoyfzCh9v0kKsgMYnYEdQKx9CQAxgehDrp6UxmVgWQgKAbj9kAmhzgH17y3/D9RJAoDXbLWgR8J7t1gqAxDri3j/UNct1wEIw0KxzAHyDAAxi4hGE4Dci4gdNWg0JHue7gHdYzUBHK5sUADJOLbcl+h6EZsVgOLcMxfqeQyoDkA8KjsC6l7o3AAs57ROQ7MG4ax06TP/KJMLyzRUzyKJFHRNz0IA8AHgmreGvPIp/CpivlXcjmsGJSti831R0gtA3pqwxaivvSjGpQCElbwUVLYAOdP6V0UAJSNibAwAwJkIKElHZQBWTkHhDxE7AGA0LomAWLfVv05kELZ8HnHRJ72oz7MbTgAAQgghNPzslf+VwAMAMChPoLHNagB+fbs9CwwOL2P0Tf3YW+THjRqAnQGhoACI+TT5ozkTAEJBeQmmOzf2k6ESAMuGQsxfZSnI+tZABLBmKCR7sdKpw3x1KgIYFS6dhioAwOACAIOzCwCEQn8AYHABAAwuAIDBBQAwuAAABhcAwOACABjyvN8IABhMaud6MDgCAAYXAA4YINEHAAHhBQAYXABYPS85AbBuQHgDsFxA+ASwUEA4BzB/QAwBYGYSYwGYkMSgAOYhMTqA4UlMA2BUEvMBGIzExADGILECANcklgIgkugMY00AjsICAJ3DAr93hoGvO8PAv51h4NPOMPBjZxj4rjMM/MWSKkIIIbSm9jE6q3J/uz8LlVgFAAAAAADGAIAQQpfp8fGwlz2pGcuC7QEAAACcB6DYw7+67bLfQFb7WEul/V4aXY9+/lAJNqKX7QD26zDecFn7psDK2hsB7MYog/MRkOVQ/barACjr0bkpqGEEtE5BuRGQm1KaRmSyA10dAdVD+GTEXABAueU6APRdFw96BSmr6aQgF0BhCmIaynPAKgC+ADHYmLZjmbJVAAAAAElFTkSuQmCC" width="256" height="256"><figcaption>Amp envelope</figcaption></figure>
+<div>
+<p>Below the parameters, the Oscillator page draws the waveform, the Amp page the envelope with its total length, and the Filter page the filter’s response.</p>
+<p>A section a voice doesn’t have (the snare has no FM) says so.</p>
+</div>
+</div>
+
+<h3 id="play-mode">1 Shot and Gated</h3>
+<p>As on the Assimil8or, <kbd>Play Mode</kbd> switches the selected channel between two play modes, and its two LEDs show which the channel is in:</p>
+<ul>
+<li><b>1 Shot</b> (the default): a hit plays out its whole envelope, as on the LXR-02.</li>
+<li><b>Gated</b>: the sound fades out (over about 5&nbsp;ms) when the channel’s gate input goes low, its MIDI note ends, or you let go of its channel button. Hold the gate for a long hit, cut it short for a choked one.</li>
+</ul>
+<p>The play mode is saved in AssimiLXR kits.</p>
+
+<h3 id="editing">Editing a Value</h3>
+<div class="screen">
+<figure><img alt="Editing the decay" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAEBUlEQVR42u2dX27cIBCH9wh97GMfszdobtFzrJQjpldro7qyLBiGYcwfG76fUMSO8e56PmbA4CSPP7++F5UHqisAVNfr4/VV9vqxsh3ajUkA2UP/G0Sy2IPTFXu+95hb9vS+6PH9ZdDsobjYCMDuUN0e1y3enw1ANjs1BRAHTdb7FwSgeDyfgjbLEABbxZhY7C2HR4D4suYYYOnRK48BwwCct98RQJ1pKAAAAID1ADzfnlsJLl88Wu1l9kbXfSMmukk8xQGgdNp6GwArL0UAgMU4AAAAob56//lOGVjogQihy+nz9+dWjpa4jeNtJ5k6Nt0LEv0OgKP3xXpDAGJABBa92f4+84VCdqlKNzaJgMDdWfuUAMSfZQPAsTtbAKT6e9BghTFAdL115PBFgJi4powA4yMzSt9vkoLsAO7OwA4g1d4DQEwg+pCrJ6X7MrBsBMUALvsgE0KDA+rfKv+PtVW6KVKrfH20AOCYrRYEEHRNo6UyALG+AoDAy0ZLDwBxWCiW24FMbb4eXSx2+Yfl6am00QpAtwjXkzjrLgCOPjpiiL2p7Jwr5xZHgBFAEBPTREAAwxgBqRg6nlIAQHGuHdutU9B5APFZnghIOXQOALUGYSO2gmlo0SCsWBaZhorYrCmoyRXeMAUNuxEDQFcAfVYNWfJxPhUx3y7uwD0Dz47YfE+UjAJQtidsMep7L4pxKQBxpSwF+TYgZ9r/qgjAMyKmxgAAnIkATzryAVg5BcW/iDgAAKOxJwJS3VZ/OpFB2PJ4RKdHetGYezecAACEEEK+CdOgNfE1iwzgG+oiAAAAAAC4OoDjMg4uGwNArKORAOKwUCyArAxAt8RKnYXaAghiAgA1ASjOtWNDFSIg5VAAtJ2GFg3CigUAY27EAACA9QCQf1gLAgACAADQ3QDE/yOjXRsAyF7rYwFA3vuxvVYbADjBnHEuAFoBMGb5UgDx+KF/enbUuSWA4EpSyT3rXEf3F12f/T4zRIDSj1LXb+mbtSLPkhLnSUFKjytyRK0IWA5AxVTgGwMAIFywb5rfAoAyCE8OoMM09Eyvn2cWNPA+YDkAV7sTrg6btaA/1TvEhCnoOquh9mibfBCeRgAAAAAAAAAAAODKALbfJy6tPN+eX4VKUAEAAAAAgJsBQMyCAIAAsBYAysg/2IQQQtf5633uynb3QSWoAAAAAADAPQAghFA3vT5e9rInNWNZsD0AAACA8wAUe/yp2yH7BRS1T7VU2u+l0ffR3z9Who3oZTuA/XsYL9jXvikwX3sjgN2YZHA+Aoocql92FQC+Hl2aghpGQOsUVBoBpSmlaURmO1DvCKgewicjpgMA5ZLrANAPdR70HCmr6aSgFIAzBTEN5T5gFQB/AfJ76zPwYuuCAAAAAElFTkSuQmCC" width="256" height="256"><figcaption>Editing</figcaption></figure>
+<div>
+<p>Turn the encoder to highlight a parameter. Click to edit it: the value shows large, with its position in the range. Turn to change it and click again when you’re done.</p>
+<p>Hold the encoder down while turning to move in steps of 1/16 of the range. <kbd>DATA 2</kbd> sets the highlighted value directly.</p>
+</div>
+</div>
+
+<h3 id="cv-routes">CV Routes</h3>
+<div class="screen">
+<figure><img alt="Choosing the CV input for the filter cutoff" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADaklEQVR42u2dTW7cMAxGfYQuu+wyc4PmFj1HgF6u+/Rq7aAeCK4oURRtybL1PgiBR6I9Yz6R+hknWf78+FpVFnSsANDcw79eZT0OlRqAYtPLQMhSH52u1JfvzWx5oveTLzUAi4GNz6F6vTy2eP9uAIrZqSkAGTRF798QQG0KOgrAemBMLHbLoQCEIcHUzXcCYAyQg3BXAPvr7wHAMw0FAAAAMB+Ax9tjLftfRu7SjIsLXfdCLOmm5CkOALXT1ssAmHkrAgBsxgEAAAj11fv3d8qJhR6IZh+E/23OfUP/K2xhNi3PN0oD2K4wsx8x35S8lFIzOAC5sVws+ncABQB2zzpsBve7BLCIb9WNAJSabeIxAYj6b64XJzv7PAB0yygO9gKQZgqk7SmXyD+HAJD5J/rZHMBtIiD5/WIx4+ceBwJAjwhIAjhyDABAQwD29F2cX848C8o9FVGehqLzF2KoHwA0nD5/f4aCN84BkDxGZwKQYaHUKJFUZaObTQRAr7GfJe19V55uDNBjogpAdPG7Avj4+bEtyZq6CFCSgMWVvhrJjBSUtW8KgEE4kTosA6wjBTEII4TQKNNQcu4QQzEaaEfIMgsCXg8AVRsPCADX2YpwAyAFjRIB6PhZUNVWBDCag8HFAJh1bcw85wR3s1oeYv6D0K3V52E8SvJXCl4AvqAuAgAAAACACwDYLghy11KakpdSagCw+DzrsBnZ7+ssxd6aMw710sAJIOq/uV6c7OxXAaB4Ldmq0OoBQJopkLanDJt/Vifk3JpsHR3A4BGwXRxtnZsDIFsBcGYKUgDokQSAikE4crd8qQSBH4A9fRfnl9cCwEIMAAgAAEAAAAACAABQlWeFANDb+3oNAPp5X6kHAAAAAAAAAAAALSegymQUAEQAAAAAAAAAAAAAAAAAJqQFAAAAAAAAAAAABgYQnux9vD2ehYM9BwAAAAAAcDEAiFkQABAA5gJAOfMPNiGEEEIIIYQQQlMo+u8+ennar3vcxjKhPQAAAID9AJR6+a5rk/0Gquxzlop9KI0+j359qQKbpJftAMLnMN6wz74pMJ+9EUCozDLYHwFVDtVv+xAAvh5dm4IaRkDrFFQbAbUppWlEFjtQ7wg4PIR3RkwHAMotHwNAb+o86DlSVtNJQS0AZwpiGso6YBYAfwGxmBEHzQZVQwAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>Choosing an input</figcaption></figure>
+<div>
+<p>Every sound parameter can follow a CV input. Press a section’s button again to see its CV page: each parameter shows its input and amount, or <samp>--</samp> for none.</p>
+<p>Highlight a parameter and click to choose the input. <b>A</b>, <b>B</b> and <b>C</b> are the selected channel’s own inputs; <b>1A</b> to <b>8C</b> are any channel’s. The input’s voltage shows at the top right.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="Setting the CV amount" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADh0lEQVR42u2dTW7cMAxG5whZdtll5gbNLXqOAL1c9snV0kE9MFyLoihaf7beBy1smfaM+USKEibt7fv3j6x2Q2UFgOoe/ni25Xjt1AAkLz0NAln6d7cr/el3M1t29L54qgG4Gdj4HKr3h8cW718NQDI7VQUQBk3S+xcEkJuCSgFYDoyJxW45FIB1SjAN84MAmAPCSbgpgOP91wDgKUMBAAAAzAfg/npf2vHTnbs04+RC170QE90k3uIAkFu2ngbAzFsRAGAzDgAAQKit3n690To2RiCafRL+tzn3E/2vdQuzant8kAxgu8KMfsX4JfFRSs/gAMKN5WRTdqTTAOyeddgM7vcQgOI+HUCMigfAbvzGRrE42OcBYLEsBiA0UyBtbzlF/ikCQExcTQFcJgJi3jTaFJgDJgfgiAAAnBmAPX0n68uZq6DYryK2PVEAqPNCDLUDgIbT59fn2vBGHwDiMeoJIAwLpUeJpCwb3WwiAHqP/a7Q3vfk6eYAPSayAOweflUA73/et03syYsAJQlYXOnrCZmRgqL2VQEwCQupwzLBOlIQkzBCCI1ShpJzh5iK0UA7QpYqCHgtAGRtPCAAnGcrwg2AFDRKBKDyVVDWVgQwqoPBxQCYdW1MndPB3ayWh6h/ELq02vwYjyb+ScETwAtqIgAAAAAAOAGA7YIg9izlkvgopeeSjvYDsHvWYdPY72vtsXVKg4gvDGA3fmOjWBzsHQHs3isJYEUlGitXt5jD0yoAQjMF0vaWlvknF4DoUzF69NMWEWABcNIIAEDFRBzLDLkuBoBnEtYBJGfs3b3J6V38LH8ZKqbvZH3ZHQALMQQAACAAAAABAAAIALn+UhUzBkBhAJZ+BQwAygOImQGgGwCjPQCqALDbA+BorgdABwDJ+gcATVONYgyAMmV+vZQFgLqTLQAAAAAAdCxPAdCCAVVQ/2LJXU0BoDdLAAAAAAAAAAAAMDCA3W/kpzq4v94freABAAAAAACcDACiCgIAAsBcAGg9/8EmhBBCCCGEEEJoCu3+dx+9PeyXPW5jm9AeAAAAwHEASn/4qcsl+wtk2ccsFfu1Vfo++vNDJdiIXrYDWL+H8YV99lWB+eyNANbOKIPjEZDlUP21iwDwjejcFFQxAmqnoNwIyE0pVSMyOYBaR0DxED4YMQ0AKK9cBoB+qfGk50hZVYuCXADOFEQZyjpgFgB/Aajw43tAI/SkAAAAAElFTkSuQmCC" width="256" height="256"><figcaption>Setting the amount</figcaption></figure>
+<div>
+<p>Click again to set the amount, from −100 to +100, and click once more to finish. Hold the encoder down while turning to move in steps of 10.</p>
+<p>CV is bipolar. The inputs read −5&nbsp;V to +5&nbsp;V, and +5&nbsp;V moves the parameter up by the amount’s share of its range; −5&nbsp;V moves it down as far. With an amount of +50, +5&nbsp;V moves a 0–127 parameter up by 63.</p>
+<p>On the ordinary page, a parameter with a CV route has an amber mark beside its name. The FX bus parameters are shared by all channels, so their routes are too.</p>
+</div>
+</div>
+
+<h3 id="gates-pitch-accent">Gates, Pitch and Accent</h3>
+<div class="screen">
+<figure><img alt="The channel's pitch and accent inputs" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAC+0lEQVR42u2dW07EMAxFZxl88gk7gF2wDiSWCFsDpEpVlMe1nSZ9zJyjfAwe95Ub20nVKbffj6dQu8FYEMDD59fn0pbPqzH7Snybbp7630QvmwL8Fnjs2ebCbo8et+cQDVIx0i7OejzzbxmbAujgENdvdqi2l589vX8tAdLN671sZqepApRBY/b+IQJkMogU1Br4zRS0WA4RYPngTCx+zx0EEG5hATpqgGdEX70G6CIsnKvpS6WggQJst5+qCO86DUUABEAABDhEgJBDtNi2NukQIDpt5VYEIAACAAIAZLy/vdMObIxAoAj/t2c4iIoA6fIys4s/S0yH6uHSrZx7OAPrfWZtLC11ATxdMESA0ueKAmRdXBpbloAAWUC0QiQby1U3BOgRwExBfV15rwKkj6JkySeTYVgNQIApEYAADydAq8AgwHOr6m6cUJYZ73ICtGacnQLAwQsx2FUAOCPfP99Lm7Fn/9EX53STGac0hMojb41H5Eo31UfDL9jcYelwfgGcT6Ib/a4vOBuVHotwQICYALpTPFulGjxCBGS/iqlaXCkYAa4UAZ7iiQB7pCBdSzqq9LxZ2Z0X4dY+zTrcUb3PNg3tFwAAAAAA9pxBn/asjjlJ9XqDCcsWBKgsK8ylXXUNIn5U7lm8iB+ViwPpS2j1b/n+jdbgO0YDT7rQb0po3RT0LOKdf3akOPP9JhdLQeKma/UebLcAWkszvK4qQGisRV8d0hEBHWM8mmPPUgPEKDbzuH57kc77OlPXX/wViQB9Dk4HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC4I9L/z2C2f//Xl1d/e0B/BEAABNgugLCXR12+8l9AyL/lKfzXNul89P5LDG2qvewXYD0P5wX3+U8VrM/fKcBqbGqwPQJCHaove4gAfSM6moImRsDsFBSNgGhKmRqR5gDaOwKGh/DGiNlBAHHJYwTQX+1c9DpS1tRJQVSAzhTENJR1wKMI8AcC+YPwI5FJ6QAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>Sampling Setup</figcaption></figure>
+<div>
+<p>A rising edge at a channel’s gate input plays it.</p>
+<p>Press <kbd>Sampling Setup</kbd> to give the channel a pitch input and an accent input, each one of its own A, B or C:</p>
+<ul>
+<li><b>Pitch CV</b> transposes the voice by 12 semitones a volt, so it can be played from a 1V/oct sequencer.</li>
+<li><b>Accent CV</b> sets the velocity of each gate: 0&nbsp;V is the softest, 5&nbsp;V the hardest.</li>
+</ul>
+</div>
+</div>
+
+<h3 id="mixer">Mixer</h3>
+<div class="screen">
+<figure><img alt="The mixer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAACcElEQVR42u3dS07DMBAA0ByDJUt6A3oLzhGp918WBJIV6k/ifJX4jbxozaglfvXYSSntnl9vVa0T6waALaJ/9MPb4e7f7WFPVxjlUYDnb6Rdo4jzh3en5J9o9IcjPrwR93eFIZ4NMLF/dKBPCvAyA5I9WYDR6gRgSQlKYMTju7wEAUiUmtzk2GINiKv5FIDR/HOtAaHov6y6+wG0PAOWbkMBXBMgN+gA9gMYVvyFj3NNgNqE5AlUoT/8dJXHcSlCAAAgAAgxO+6fd+3A5hUoGo/3mjBcAK4LEO84ywC1O9TW8gEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgAvm3j1to8V0AZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANgVwD/tOyYAAAAAAACAf9E/+iqA+PviytFa/gjA8C8X/9rPE8SdAWBifniK1vIBAABgDTjTGmAXZBsKAAAAAAAOAoh3VMlW2IYmW2Ebd+18AAAAADgTgEXYLggAAADOAyzCdkEAwlsN8XsOSYBCfvIAWshfChDaRIBcfu4ALp8P4OQAStDBJQgAgIYBbEOdB7ga6lKEa0EAAAAAAAAAAAAAAAAQF47hBe7RNv28PPndBS3kAwAAYDlAoT/5kcHkpwZzB1CVn8ss5OfeMlzr9yk/fhwjNslRng5QeIOiPKBV+ZuCzcufCBA6swbLZ0DVgJYPexWAea/o2hK04QzYugTVzoDakrLpjBx9Ae09A1afwgtnzA4AhUNeB6D8o50XvRkla9NNQS3AzBJkG+o8oBWAb9wE70NQBpK9AAAAAElFTkSuQmCC" width="256" height="256"><figcaption>The mixer</figcaption></figure>
+<div>
+<p>Press <kbd>Pan/Mix</kbd> for the mixer. Each channel has a strip: level, pan, FX send and mute, top to bottom.</p>
+<p>Press a channel button to pick its strip and turn the encoder to pick the field; its name and value show at the top. Click to edit it, or to switch the mute.</p>
+<p>The FX send feeds the channel to the FX bus while it stays on its own output and in the mix.</p>
+</div>
+</div>
+<p>Each channel’s own output always carries it. The <b>Output</b> setting on the Mix page (<kbd>Level</kbd>) decides how it reaches the mix outputs: <b>Stereo 1</b> and <b>Stereo 2</b> by its pan, <b>Left</b> or <b>Right</b> on one side only, or <b>FX bus</b> through the FX bus alone.</p>
+
+<h3 id="fx-bus">FX Bus</h3>
+<div class="screen">
+<figure><img alt="The FX bus set to the reverb" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAEVklEQVR42u2dS27cMAxA5xhddtncoLlFzxGgR0yvlgYJYAwsiSIp6mPrEV5Madm1+URRomnn8UCQ3eUjkUN5amM9iXye0iE7Wr+qVwJI/6nU7979AbAcAKuxABATAEp7fYHEFAPwgKEeoL8MYkCXGAAAAAAAAOEAskFVWOgRhBEEQRAEmSWvv1/ZJm70QGRz+fjz43P7iUySPIDnBWqqFDRVMTUeL9kbjzqzFkC2aar0XeL6ADpd6ggAafc5aTp1rt4A0ruothHu/XT7eQDyuUqa02UpQS4OoJ8m2ANuA8DUsTQaeXCLBCC46qU9oDoEae59qAeYznOhIai0SxkgtQCqnugOws/K6wbh6gCgNI4EAJm8EEPGAUBWlPd/79+b3MZ35ukVCKfqvMEXYLORYK/LASgVf0wvQKkDyGpOLnJoDqXmqLkAshUxpfJWpaaLB2R94mRH31GzhqCSRdJdPg0AtN5gAqCHBAA/gLSCT4jkAOjoAT5NAABljD2U1QbCUXPnoNnJSdUD3EG4bxXsIl1767UbRlgFADBi8hBuO5oOvCUtOXL07cvWQzYBoJ8pFaePz24hQBJSEdnzTExOjJzmlt7b9eeCqh5zrZXBGADC1FYLwGd0ABhy4G4A6VhUGnBKSdM7AXCnK4IBnH7stoDI9vo6AE0nFcKyPgjPTU4Mng71SkUIvRshCcFqGWkxLvYtfXzBl41gYGmNonMACPUN1ccvmwDQPJ+xfZnEmlS4azra6gH6x/0AiIwB1Zq7EQBuPwSVlBovMX8cqcUD7hqEGwE0zYKEtNo+QTjt0dWRqtqGxMM1Ew8AmJx4AMDSeZ7wtwouPX8VNLb5DwBalm/BVREtmpLDReFfE0b3qoj2Goj7rajThbG2KkLTbaMA6CuOru4BnqoIjdVMyQnfWwV3GoLCAJh8Qlhg3xJAWBAWDOELwo+kBkJ51EbT0NVW3QgAWIdjAqRHVOiVikA086KOqQhACgDiUxE7JBVil2O9ANw+qRCbF7IBcBSjAyAsBrSnIgDQ9ILGI+55AKPQnFQEAEgqsKJGHIbDdtNiAKafNgvKAtA/acFvWlMRpXm9fm0MgKZUBAAmpyLcABiCesWAnV/QWDcIpy3xgHVTEQiCII5UhLJly+xzn684BVdFKCsYyXmYZ0H6qggNEjmHkXW1kubSiZD4qoisCfTn0Q9B91iFhL2gofeAkQAey38DNrgqQgmgWksRCGDxoBJcFWH1AOuEBwCeIPzwvnxRjcP6P5C1cjAgFYEgCIJUY8XXXxjmR+wPAAAAAAC4BgAEQZBh8vb3Tb99tn/59aLfNmwPAAAAoB2AoE//1+9d+hswtS+1FNofW6frkc+fSoVN1sp6AMd1KG/Y174rMF97JYBDWWTQ7gEmg8q3HQLA16OtQ1BHD+g9BFk9wDqkdPXIagca7QHhLtzoMQMACLccA0DeNTjoOYasrpMCKwDnEMQ0lHXALgD+AwAcdfdH8mv+AAAAAElFTkSuQmCC" width="256" height="256"><figcaption>The FX bus</figcaption></figure>
+<div>
+<p>Press <kbd>Pan/Mix</kbd> a second time for the FX bus: the LXR-02’s distortion, ring modulator, compressor and delay, and the reverb. The reverb’s tail is stereo.</p>
+<p>Sounds reach the bus by a channel’s FX send, by a voice’s Output set to FX bus, and from the Sample inputs (see <a href="#utilities">Audio inputs</a>).</p>
+</div>
+</div>
+
+<h3 id="kits">Kits</h3>
+<div class="screen">
+<figure><img alt="Browsing LXR-02 kits" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADN0lEQVR42u2cWU7sMBBFexl88knvAHbBOlpiic3WoEVLEfJQvuUhk89R9ARux4l9U0NX/LhcAE7G7ev2OJafg4/C3j8Rdnv8kXeo4jhHX/3/P6gCxL9624sDesdBgLEC2LdxdP+zeKF9CWB4m9ktQI8B1QIY7v7EMeC/TSR/VX1CowXkTj/Z6tewmgCukIAAawRhVn9LATCFSgFyX6CKMbYY5LEGAAAAWJOP9w+ODQ+eQAAAAAAAAIA/7t/3YgsAAJwzADwPoyV3in1W0JIcMDmU3Se4hDjIAcJvbnotZ9mjKeuVPCsQVbnnvQsQP1/GA4UAnQWw/x0tgO6C7Hs+qgDxxJItgReOFyUXGEQL0K3hbALsJAZ4BUi6TQRAgLXSUEUAY+Sk78qNb6Szh09DAWbi5/PlcbzCRqQFWDbsB43GQMFO/6D/0hKPHLTE4xQvp1/rGALEk1nmIw5qLEqxRRQ7qYcy8pEEiB9VffURoFWAumnYCxq7hToBko6r8c73JYCyQPZq6haQCwwV7u48AvRyC4NckBFvjLCMAAjQkIa68sJkTtkYA3IOUI83RxIAEGAaAeCE5WjXroiKa7ErQn1RXhxHf1Ez9a4IZdcCAgzcFbE3AabbFWH7bkUqYy9F9dvgSXdFuNzCOAuYd1cEAmyQhua2WNmp4cXcimski8kLsSsCAGC/pYheHl/03ZQi1HO9WVB12WP2UgQCDC9FKOa8jgAzliKKRQVRAKWk4fLdU5QitnJBlCI2DsKUItz/T7giWRQFoBQBALBNDBDfB3TZA+H9HjBdKaIldxJbisJP/bciEGCDUoQogJIaii1Fy5vub0UkjUP3wt0FmKsUobwT7uiC9NrfLKUIMS1BgIGliF4xoDoNpRQBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaW5fN/149L++XfVjwv4IgAAI0C6A0R5f9fmRPgFX/1xPo/9yDLofe/yYgjbJVdYFWO5DnHBd/6GC1fUXBVgasxq0W4BrQe1pdxGg7on2uqCBFjDaBXktwOtShlpk8QFa2wK6m3CjxawggDHlPgLYH60c9Cpc1tCkwCtApQsiDeV7wCwC/AIZfJcH6AGmawAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>Loading a kit</figcaption></figure>
+<div>
+<p>Press <kbd>Load</kbd> to browse the <samp>AssimiLXR</samp> folder on the card and its folders. Turn to a kit and click to load it. The top right says where it goes:</p>
+<ul>
+<li><b>ALL</b>: from the Channels page or the mixer, a kit loads into every channel.</li>
+<li><b>CH n</b>: from any other page, it loads into the selected channel.</li>
+</ul>
+<p>An LXR-02 kit (<samp>.snd</samp>) gives each channel the sound of its voice type, and leaves the voice types as they are. An AssimiLXR kit (<samp>.kit</samp>) sets everything: each channel’s voice and sound, mute, FX send, play mode, CV routes and morph kit, and the morph amount.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="The Save page" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAACYklEQVR42u3d223bMBgGUI/Rxzw2GzRbdI4AHTFZLQ0QQBDEq3izEp8DoWgoxpX5iT8lF5BvN3h0H4Fo+77x8Lv516E8+sX27cfKdgQgANrWgFRBrwlA9R82IcwAAQgge7mZamR6APuKX1zM6boLy4xvONxuxACAb+Tlz4vtjpszEAAAAAAAAAAAALi/59/P0U0fAACABm/vb9G/sy6AbdwFcJUAvhrDHw/TJWyksQTt/8zvDXsKYHwAh7NbACsW4cNwF2eAErQ6gFQL4y9DoyUo3weA73ojdsdq3vDQxalPaCy+eKpD8TmTtUvx4tFvOOJrBtB1kKkbq/Cqf+xHEZUBRB8pnn+6bP4B5alXPhXAqUfd9gZQbJlXgqLPjC3uDfvUtNQHkD+q8TNgUgDRQQnP95oAMr81PIDUdzAsDWBZCaoJoLmluQRdaAbMXoSnBtCzCOdHvOsqKPwoYt7/B9SsV8Xy0laC8ivz2ZMm+sTz3gs2H71d4qM6AYy7y/j763N74k7iAezroDFaHYBBv2IAhwmx77NvNG8Gl6BoEtEAopHQGEDx7BbA0gBqhvtwE29k5wYQ7jLoIxfh8ERONbp4nTsDEMBPDwAAAAAAAAAAAAAAAAZ4/fdav93S36KV+mqtR+svAAEIoD+ATHv4r37tqn8Dp/qnemb6b9uk48m/fqiQTXSU6wPYjqPyDbf1nxpYW//KALbGZAb9M+DUgObf9pAA2s7osyVo4gyYXYLOzoCzJWXqjCyeQKtnwPAp3DljFgSQectjAsjvWrzoNZSsqRcFZwNoLEEuQ90HPEoA/wE1QL2N27QNjAAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>Saving</figcaption></figure>
+<div>
+<p>Press <kbd>Save</kbd> to save. Highlight <b>Name</b> and click to name the kit: turn for each character and click for the next. Names have up to 8 characters, as on the LXR-02.</p>
+<p><b>Type</b> chooses an <b>8-channel kit</b> (<samp>NAME.kit</samp>, all eight channels) or an <b>LXR .snd</b>: the selected channel as an LXR-02 kit, which an LXR-02 loads. Highlight <b>Save</b> and click.</p>
+<p>A kit of the same name is replaced. With no name, the kit is numbered.</p>
+</div>
+</div>
+
+<h3 id="morph">Morph</h3>
+<div class="screen">
+<figure><img alt="The Morph page" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADPElEQVR42u2dW27DIBAAfYx+9rO5QXOLniNSjpheLY0a1UrNsixvjGdkRS7GxmYMCyRSlwXg0Nx/Ef+8/0dMNKb7ioPltb7cfbfiSqXD4ntzEdCnC9rUFwI6xwA9PSc2IKCAgGC6JcgDAhAACNjlRAwBAAAAsHfOn2e2jhtvIAAAQAksX3uEF2Mu14u43wZLib48m/TGNx9cVYsQsN76vgSkZWspwLQWKQp4JiqPtGbYNCBfyjPRPUu8jq9m3SsrRbcU4OuFrALET0vz189KS9HLGrAL8oUB61J8GwG+eGMsSzw0ggClt4kT8PqcAwoYtgUU+ElgjgB795IvIFjj4wThuDgsVoE9MCpniQKUPHbZvq6pZRwuNgwdbdA5wURs3G/CJxOwPxAAAAAAQw1mqQQEIAA6Cjh9nB47j092Su0gAAEIQMBuBBAIGQUhAAAAACqH3K+3x/YOnZAFrD+sKF5ejWvOJuC1jorXFwJSBLz+2MjXSixn1WtY8wsQP908egotwCpg8/IigBaAgBIpCCgmQIyoYsclXhMNgXkAIOAwAmA4bt83cT/nOrF5Nuk5t7FLAc8HXnfaC0jLNpWAddskitncP8UUpWbdK7sFHasLcj/do7Epell0Qd4YoKfYz1K6OwR0E0AL6C8gWONHF+BGQlGAkscy3FTicP6Q7FjaAAEIgFJzsV3U71T6LQNzBPQXkLBcYWlq9ZY9phKgDzHTJmK1lz3mF+C+p8XXnXImfbMJUKobAU1bgKVSRlj22PcwdPEv0+d3QW2WPYBBJwIAAekxYMw59oQy6j0SArKqKTjqSF540LPpyxVzdkfKs+X/BsLVljMzmDweWMb4CKguwFgpli7IIqCI7MkFuIdy5r05ixxzBmFj0FNe3qjRbXD1PyHgAwAAAAAAAAAAAAAAAAAAAEBXLteLfVv+/jGWcTtgfgQgAAH5ApR0t9TnIfsDROX35VTyr1ul+9Gv7xJwI9ayXcB6H8YHTstfVVhafqOANdHrIL8FRFWo/thFBKS90bFdUMUWULsLim0BsV1K1RYZfIFat4DiTTizxTQQoDxyGQH6ocZBL6HLqjooiBWQ2AUxDGUecBQBP9M6Y9A9pdZ8AAAAAElFTkSuQmCC" width="256" height="256"><figcaption>Morph</figcaption></figure>
+<div>
+<p>Morph works as on the LXR-02: each channel can hold a second kit, and <b>Amount</b> blends every parameter between the two. Press <kbd>Zones</kbd> for the Morph page.</p>
+<ul>
+<li><b>Morph kit</b> opens the kit browser. The kit you choose becomes the morph kit of every channel.</li>
+<li><b>Clear morph</b> removes the morph kits.</li>
+<li><b>Save blend</b> saves the sound you hear as a new kit.</li>
+</ul>
+<p>Press <kbd>Zones</kbd> again to give the amount a CV route. <kbd>DATA 2</kbd> and MIDI (NRPN 120, as on the LXR-02) set it too.</p>
+</div>
+</div>
+
+<h3 id="mutate">Mutate</h3>
+<div class="screen">
+<figure><img alt="The Mutate page" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAACm0lEQVR42u3dDW6jMBBA4Rxjj7C9wfYWe45Ke8Tu1brRVkUInGFsbELS78mqKAx/fh4bokAuF+DJePvzdi3T9GLRMvrjP+t/4/lr1ovmK2bi57t76NqfT2QFLGokELBpri3+mZp/o4Bi8ySgrf+ZeqGKLmhR7wQcmgH5MSBeMejT4/hnFTDPieK/nQXIgGoIIIAAAk4oYPNGaaeAZ70RAwAAj8Lrr1fljkULBAAAwGl4//v+WUZsWfVW1FH3+iKgRcCUEItF8zmZtcYl1vMLKP5dx8RzZEDdADC1VgJkAAE95hDQTUBxRC12XMVt0gAAAAAAwLnIfHXe1+vH1v7+OZktI1tH60dXNtddZwYBfcRUSbr11Bc6Cyi+JIOAgwQUh+Lg1Q/YNTAkHy01/B5xUdQwOGPvRVH+aWoCBl6SJm8F1H7n2i9e4OfThYy9tV/V1bgY7V/7BNz/o4i2T4d0QRUCgpc9BpGGXwAAAAAA8HB8/P5xLc0TLz9frsXEYoIAAggg4DEEAAAAAAAAAABwAIsf5c6v1TGs7bDvuPdRZ5I/YgIGCigqWf96/WbeFAPya61/LXx+hJtbjmNO5CYjYH24ybwJfuT+1lrzPcYNYnOnDXs/xRgQZ8BpBcQncmoBVa07qJQ7CkjGnL0LOo+AzJjUIODsg/CtdE52U0EXVzUIb14CxFuujQEAAAAAAAAAAAAAAMBuFl9Oisvl6/UfyfIN4wkggID9AoL5671+LsqfQFX8rcggfiqDjife/poNN8VazguYjiN5wm3xQ4W1xScFTDNvOtifAVUVGp92FwFtLbq2CxqYAaO7oNoMqO1ShmbkZgM6OgO6p/DOjDlAQHDKfQTEiw4e9Bq6rKEXBbUCGrsgl6HuA76LgH+VSVLlSIxl0QAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>Mutate</figcaption></figure>
+<div>
+<p>Press <kbd>Mutate</kbd>, set the amount and click the encoder: every sound parameter of the voice moves by a random step of up to that share of its range. Level, pan and the other Mix settings stay as they are. Click again for another variation.</p>
+<p>From the Channels page or the mixer, Mutate works on all eight channels and says <b>ALL</b>; from anywhere else, on the selected channel.</p>
+</div>
+</div>
+
+<h3 id="kit-cv">Changing Kits from CV</h3>
+<div class="screen">
+<figure><img alt="The Kit CV page" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAEFElEQVR42u2cUW7cIBCG9xh97GNzg+YWPUekHjG9WrrKSivLDDM/GDBrvk9WZGNs4/mZASZObjeApfn6xjz8SjALd3fIPcK8T64ZCHALTSOaTLwcARBgAgFMKyDACAGcUI4AeABjAAJcT4DtqXWtf64A2xGIhZi6EKsIGuF9WA4DAADAeN5/v7OduNEDYXG+/vy4bz/hJAwB7ktTcz8krJyrsCsveujMpO/1IBbgWWmMAHXV5rd+ritv91UBtpkc83amvDnL7i5PDy+jQaUA5s/0rGNWp0FptRVCUGMBzK6qCGDWWUSAXRSJB+FtwEkvrhMAD1A9YCeAcmt9EPYtjgBewHGCkhNkwgaZM7YLzIJy8w5PADh5IQZDBYDp+Pz3+dya3K1HC5XyHo8u+rwjLZS+Atm2e+Q7NBd1WON3Js597aF+/2EKkLrFrsS5ynSvomflWri7PD0co0F3AepKlH2/xG9hWvOsEJQKkH4EJf4xS7azV4hUJ4DSeXNn5xGgmQc4JUoIqhNAHGxn9oARAoh26SdAaPErC5AbKnO+4oyNqScpISi3b475p0xD6wUAAJgwG1ERTMNLJkwqzJWK6J0zmC2pMOksyE8qOMmJcBIyW1JhFgHMd9Zn9KUeMM+SapZURNHs25/jK2K/+hgwIgTdStLUThJpEQ94MQHmSSrMLoCfH82NHK+VVCAVAQCkIspywiQnxFHh0DrgXAFePTnhj89qKqJ0IrRsciIVo0CAm/zxiD+hXDk5cVQAxxwDBLhAciKN+Pq/WbUFCEOQ/53Eah7gr8IOeYBukSMCXCk5USxA7tdhuUJ9EF4nOWH+q2ZyEgAAAACH+Pj7gRFG2Hdr6Nx+Q8Hu1R6befgs8evnKr+8ALnXNktEE/vP9Q9zTXUqhw3T2+n0kjYChF1P79275vrSHhQgtUWRaXYPqugl54SgsAvoAjidKxQgtYhuFD+azS5A2IJSD9BfNQxBSgtzrapw074CmIdKEDS7Z6kAZvANQ7MYLbeVwzfSgyowdYbj/eVI32nb7xbqxQeXXWnQR4D6dUDRysscGHODeemDwpsXLWW6r6eae0CTmYy+1BJXABUzyxFTya4CFHmAOZUUBVA8QF95OM99SQ9QwnRRHw8fpC+vwlW0o+tcI0HYm8RBuMID/FAu5vX8AWPeMeDayy7MDQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbdn+hVS43eu//XrTtwXrIwACIMBxAZzy9KmPU/oLFNXP1XTqP7dO7fHvnxJoY1pZF+DZDvGF6+p3FayuvijAszCrwXEPKDKo/9pNBKjr0aUhqKMH9A5BpR5QGlK6emTYgUZ7QHMXPugxAwRwXrmNAP6pwYNeRcjqOikoFaAyBDENZR2wigD/ATZbtfN/chBOAAAAAElFTkSuQmCC" width="256" height="256"><figcaption>Utilities &gt; Kit CV</figcaption></figure>
+<div>
+<p>Kits can change from CV, as presets do on the Assimil8or with Inc/Dec Preset CV. Select <b>Utilities &gt; Kit CV</b> and give any of these an input, from <b>1A</b> to <b>8C</b>:</p>
+<ul>
+<li><b>Next kit</b> and <b>Previous kit</b> step one kit on each trigger. They stop at the last and first kit.</li>
+<li><b>First kit</b> goes back to the first kit.</li>
+<li><b>Select kit</b> picks the kit by voltage: 0 to 5&nbsp;V is shared evenly among the kits.</li>
+</ul>
+</div>
+</div>
+<p>A trigger fires above 1.7&nbsp;V and is ready again below 1.5&nbsp;V, as on the Assimil8or. The kits are the ones the Channels page steps through: those in the folder you last loaded a kit from with <kbd>Load</kbd>. That folder is remembered when the module restarts.</p>
+<p>The folder’s kits (up to 64) are read into memory when Kit CV is first used and whenever the folder changes, so a change from CV doesn’t wait for the card. All eight channels have their new sounds within about 3&nbsp;ms. A gate that arrives in the same moment may play part of the old kit.</p>
+
+<h3 id="user-waves">Your Own Waveforms</h3>
+<p>Like the original LXR, AssimiLXR plays waveforms from the card:</p>
+<ul>
+<li>WAV files in <samp>AssimiLXR/osc</samp> are single cycles. They appear after the built-in waveforms in every oscillator’s Waveform list.</li>
+<li>WAV files in <samp>AssimiLXR/transients</samp> are one-shots of up to 2 seconds. They appear after the built-in transients.</li>
+</ul>
+<p>Each folder gives up to 16, in name order, as 16, 24 or 32-bit PCM or 32-bit float, mono or stereo. They load at start, and again with <b>Utilities &gt; Reload waves</b> after you change the card.</p>
+
+<h3 id="midi">MIDI</h3>
+<div class="screen">
+<figure><img alt="The MIDI settings" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADnklEQVR42u2cXU7lMAxG7zJ45HHYwbCLWQcSS2S2Bgikq6vmp45rJ3FyPvWFNrRNTp3Yrm9vN4S21uePsn9+JirtrLRHIgCHwRUSSv/M7kEiAKUnFwCdpqBHIwDAFGsAAAAAAAAAAAAAIBBDCCGEELLW699XtoEbTyDaPRD79/S9PaNBygB4DGU9Ltl6WqfbGKK0L3kAfp1XcF0GQLbvUgAHs0jbyO1G0uBwLVeLDGAB8j3p0VYA6VFXi4wHoN4GAADYG4BuiAFw4oZmu326LNcX2KZFeA0A2b4TiM0XiKGuANB0+vj/cd+czj/JSToPmnRUH1uY99OK61QAJDfTMKrZpgfCaRu53dQbZM9z2JO9kLfhGj4NzQDke9KjCgCn10pP4mq1hgCUU1D6PwAYZgHTAthlCmoapiEWsMIinC56p82EF5D4ahUXoDKfDrQAYzcUIYRWTUUozrzSpCnqi59PrTvzMgCkT553KkLuKenOvKAF2KYi6rciiTm2BnAxEm6KAwBgDEBnGQAwS0UAQArAKRUhTJnpkhyB/HtCHYQQqQj/1WyyQRtfFWF45vmrIg4exERVEXJPqfTszF8VUff3BldFyGOF0C/ls0MxvipC8UpyJQAGFtAzFRG6KmIMANtURNyqiPSBmKIqQvKcLlMVkR0WUhEIIVIRVEWESkVQFdE1FXGjKqLDDzR4KT8sFaEI1gAAgDgA5IMLgAGpCKEbSlUEQgiRiggTHgtHjKqIHr7NFQ9wilRE9KqIKzHQdKmIiC/lr/R9ukh4PQAGFjAtgF2moJ6piIhVETaLMN+KGOmGIoTQwtmIQCHumN7N//Wp0I+1Zggk6YGS+6T4UerC3oK0UxU3tBQTWNVLr/QC0sC+66FQKQ7QhScAaAAgjJabitEBYA9At97sDqCeipBPQepFeFUApCIQQqQiFgyPHasionpv426v9CtJZVWEdyoiYg2EBMClb0WMSkVEeQWvs4DHgZ00FbEDgOZ77pmKiFIDEQmAbvZssoA5F2HHb0XYpiKCfhlC6Erc+FYEQgghhBBCCCGEJtPb+5t8+27/8udFvm3YHgAAAMB1AJX96VV/D8k70NS+1LLS/r453U/9/KlO2GRHWQ7gfh/CDuvauwLTtRcCuO8sMrhuAU0DWu+2CQDdE906BTlagPcU1GoBrVOKq0WePkC9LcDchC9aTAcAlS7bAKgf6rzoKaYsV6egFYByCsINJQ7YBcAXT1ouq8Yym1QAAAAASUVORK5CYII=" width="256" height="256"><figcaption>Utilities &gt; MIDI</figcaption></figure>
+<div>
+<p>MIDI follows the LXR-02’s implementation: a MIDI channel and note for each voice, the same controller and NRPN numbers, and a global channel that plays the selected channel. A voice’s note plays every channel set to that voice. These settings are on <b>Utilities &gt; MIDI</b>.</p>
+<p>Controllers 120 (All Sound Off) and 123 (All Notes Off) end every held note, gate and button instead of setting LFO&nbsp;5 rate and LFO&nbsp;2 amount.</p>
+<p><b>Velocity</b>, at the top of the list, sets how MIDI velocity changes the volume. <b>Kit</b> (the default) follows each channel’s Velocity level in its kit; <b>Global</b> applies velocity to every channel. It is saved on the card.</p>
+<p>Two more channels, at the end of the list, are AssimiLXR’s own:</p>
+<ul>
+<li><b>Chroma 8 channel</b> (16 by default) works like the Assimil8or’s Chroma 8 assignment: each block of eight keys from note 36 plays one channel, the fifth key at the kit’s tuning and the others transposed.</li>
+<li><b>GM drum channel</b> (10 by default) plays General MIDI drum notes on the first channel with that voice.</li>
+</ul>
+</div>
+</div>
+<p>MIDI clock sets the tempo that synced LFOs and the delay follow. Without it the tempo is 120 BPM. <b>Utilities &gt; About</b> shows the tempo.</p>
+
+<h3 id="utilities">Utilities</h3>
+<div class="screen">
+<figure><img alt="The Utilities list" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADQElEQVR42u2cbU7DMAyGewx+8hNuALfgHEgcEa42JiZVqGkc2/lonT6vqqnLsqTNU9uJ125ZELq0bn9K394y2v0obSftotiI3L6jPDYAoUT5Rbl+q/bjjTgAAACAsAB2vXzgADCBBYQ3CAAAAAAAOAMDOcRp6vsWSpXtx16FIYQQQug4vb+9sx24cQWii+v28XTfntFB2gFwX0ym++s6c/N2U3lTgpwAHoOYjq9pH1UB2L3AATDOBf1/BcDxMQAAAAAAAJiGXgIAAsCVAKAz6vvn+7EpK+/um7prcszzjL7prE5y5jMD2EWyWsmmxGpJmwq5Zjcl6REKvQdjowGQsxLNvt7mTL2nox8+AKzXTkQA1kiGBbQHENUaAHDGWZAmNgoRVeP0igFWjtVpO1Fd0JkvCAQAAFwnD6GPnAzrAakIABw/CyoufJSzF33v9fO0qXJBeruRVw/17cgl4WOAG0AxpZEDsKnvS41MlYoouqCa9XN9Jmr3COdMReTOqi2AzU7O/jR5iGlTEZrEgyMwmnoXPCepCIQQapmKcDhT/G/HVAQADpgFWWcdxXRFQ9jzW4AmSSCvln3JCQAU5t0mAI7kBAAM2RtrvggAAAg1DXUk3+uTE2jQjBMAALgeAPyPalx6h8p5bmzudC0PnqsAwANAvoOzWCf3lVzhzL7LDWDJ/KS+WO6pZvUQDAAuCABDYmDR4bZ6rAMAhYSBKYOkzP7rExhMkxBCaFwMqPS5OOvaUaucdQCgGQBNmiH3LYa0pQW0engaqRYBAMACAACAEEF40aX7EUIIRZqJsqw9MgijswBwPKChfHqdu0VV/mfR/bOb/Jtw2hr3SxtckH5ABRhCkkPTCwBsAEw5pZQQAMwA0vXzIv7rQ/g/1hgMQH74S+PNiy6IIIwQQgghhBBCCCGEEEIIIYQQQgghNIU+vz71273+68urfrtgfQAAAAD1AITytNfHR/oTMNXP1RTqr1un45HbT1VgszvKegDrcShP2Fe/KzBffSWAtTDLoN4CTAMqn3YTAL4r2uqCOlpAbxdktQCrS+lqkcULaLQFNDfhSosZAEA45TYA5I8GBz2Hy+o6KbACcLogpqGsA64C4BeXBojSkWg9IgAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>Utilities</figcaption></figure>
+<div>
+<dl>
+<div><dt>MIDI</dt><dd>The MIDI settings above.</dd></div>
+<div><dt>Kit CV</dt><dd>Inputs that change the kit (see <a href="#kit-cv">Changing Kits from CV</a>).</dd></div>
+<div><dt>Audio inputs</dt><dd>How much of the Sample inputs goes to the FX bus and straight to the mix, with their levels.</dd></div>
+<div><dt>Reload waves</dt><dd>Reads your waveforms from the card again.</dd></div>
+<div><dt>Display</dt><dd>The display’s brightness.</dd></div>
+<div><dt>CV monitor</dt><dd>All 24 CV inputs in volts, and the gates.</dd></div>
+<div><dt>About</dt><dd>The build and the tempo.</dd></div>
+<div><dt>Firmware</dt><dd>Switching back to the Rossum software, or loading a new AssimiLXR.</dd></div>
+</dl>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="The CV monitor" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADwUlEQVR42u2dAW7kIAxFOc72BtsrVdojdq/WVqoUjQbiGIM9hryvqJomFBN+7MQ/ZloKAHfHV4Vj51Oby06av9add7V/HI/mkNBJ3tnvmlCZxebnup/L/m0DM19A+xCg9CTZISDAHoKezh8CoglQTsQZYXMJuN09IBsBeIBqf/MivTsBwslAQBABZ1MznYBbh6DL+5Vy3N6J2CVV+v4BAAAAAH7w/ved7YUbVyAAs/D5//NnCzDhbcXDkPvIj65dZyfYStoOXzk1MX7m0aG7BwTMzuoeQAiCAG7CAAAAAMiKj38f+pZC4/qovufkVuTGTbz9eau37nE0z7PZvj5qGLS3leafXzaTG48SoO/3GI0w6PrCsRHgZKWeWb2VFxDwO4JjHI8fBE/qnZp4K0/mNFYcQ1CvB+iDw4gHOFkZDEGO9wA9B4JXNm9cNg6crMj31bOjT04z3wOAByAAAADAWEb+BM3aguOz05C2kiI0SXY9p2fLKB4/PP7MI0XYrLhLEUoChD2ltVh1hICEgocXAcIVdLkIuxl/6kWj2aQIgxX3ECTHfU1YbzYLCEEBgoejFKFJspsruZpTbF5ullzwQIpAigAAAIAUkU0ksPW/mBQRIxKMvCykKmKCSGCrVxgkwFXwmKAF5a9X0KdIg1URXh7gGoICgkOMFd8QNHgTfm29gpkA27mQCSNFAAAA2EmH8Evfy0YLNLwSsa5McoMFGpFWvAhYeoFGpJUJ74R3XaDhZyVCjCsrL9CItDKfgLL+Ao1IK2TCSBEAAACSSxGDy1SFo7aHk22sTKuOjnmNt5MVSyasH3RvvYJtapa2YnkMvZQibPUKmqtmJyuTCSAE5QpBxbOSYCcrZMJIEQAAABZSIzzS90JVxBQpQniIvnzEDqiOXr4qojePT/iFkmtXRSiliJL1CyXL0lURd1ugEXMufYnY6gs0qIoAEAAAAMCcji9dFbGJFLHoK8nMgofXO+FU9QqZBY/J/0EjZ71CNsHDmAl7uG1YCEoreMwnoCSuV0goeJAJI0UAAABYQo3wSN+RIlaSIpRD2lCKSLJAQ5YBtpUi9FURMVJEWbz24o4haAcpIsMCDf0NECkCQAAAo5mXcjtzpbPthu0hAAIgYJwAYX9t9feQ/gS62p+1FNofm9N45P7Pnn86CJCJOZsg5Qnb2rsSZmuvJODYKdVADHpA14TKpz2FANsV3RuCHD3AOwT1ekBvSHH1yMsLKNoDprvwoMcEECCc8hwC5EPBNz1DyHJ9KOglwBiCeAwlD7gLAd8ChntxRFJ/pAAAAABJRU5ErkJggg==" width="256" height="256"><figcaption>CV monitor</figcaption></figure>
+<div>
+<p>The CV monitor shows each channel’s A, B and C inputs in volts, and its gate (<b>G</b>). Readings within 0.05&nbsp;V of zero are gray.</p>
+</div>
+</div>
+<div class="screen">
+<figure><img alt="The Firmware page" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAADM0lEQVR42u2cUW7kIAyG5xh93MftDba32HNU6hG7V+uONFIUBfNjEyAk+T5FVQYIYH7bTCoNjwfAufj8+jSvtMH643Jv9PiTIMp1402fojztSk9GVx0iQ+5G1BoCFC0RK5gudO7eL4yzfIY4mFQAM2KuLcAmBZm1gwR43TRc6LtEgMiqzkRct6DRPWaG7F8UwHT5bMQ0j4Ax5ddhmABtUxMCtEk1CDBOgLZfT28hwMivlRUvbtfUAwAAAEbx8eeD68ALD4Sb8/P37Xn9goOwBVi/bS4l0a79j2zGqhvuOgKYxvcT4D5rXS9A6qE5t10XOqMnN5yISB2g60I9Q7NkrhSUW6a0ylxHz+rn1C2Olf4VihbnPJcApjdVCOCxqpjx9IIKMXIR6RzlCgJ4DGslgFhu7SIzpqCGAlTsAU4BNqOnN/4ZTrcJi123YhPWpuYEEPo5s3kxBc27CQMC3EYAmI7vf99de3jWvq6LWX0OAWZb99MIkLqtKAkJkD6V++gMrFw/us3UAmxsMGt1G2F/sZ/0b0XSc451JgE2q+k0ZlPlGataADFDj2NNLUC1Nw0TQM8QAXaNdXEBum5oRQHMTdgprZ6PJ00BAAAAwGmwD6Bo3Tj0YFsTcr+Cb2Wm8XD62/szCtDKhAMESG/S81eWX4Kbh7WYchZPdhF+EHq26FJRE7Qeep57BSiedpBbvof7QIVQBOR6NhddP+sxQQsQnVVNCkrPJCo6iDgcxGxcJ0DR14rHOfidWsxKnwzRMgI8DrLT1yoiIJpLoyY4I0A/0nIPyB2Po88KMRt70mXg2BH3syETxMbWaw8AAIC7/3ehyRsQdHwRQ4DDBCACpogAGLcHRN+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgH+uTcIvXs/3773f/dcP2CIAACLBfAFGejvqq8hsQap9rKdovV6f56P5TCtqYq+wXYJmH0+C69l0Fq2vvFGApzGqwPwJCC6rNbiJAnUdHU1DHCOidgqIREE0pXSOy6ECjI6B5CO+MmAECCJPbCKCrBm96FSmr65eCqACVKYivobwH3EWA/4O0tgpbeyKaAAAAAElFTkSuQmCC" width="256" height="256"><figcaption>Firmware</figcaption></figure>
+<div>
+<p><b>Stock firmware</b> puts back the Rossum software AssimiLXR replaced, and restarts. <b>Load from card</b> installs an <samp>app</samp> file from the card, such as a newer AssimiLXR, after checking it. Each asks for a second click.</p>
+<p>If an installed AssimiLXR stops for 20 seconds, at start-up or while playing, the module puts the Rossum software back by itself and restarts. To return to AssimiLXR, use <b>Utilities &gt; Load Software</b> again.</p>
+</div>
+</div>
+
+<h3 id="card">Files</h3>
+<p>AssimiLXR keeps everything on the front card in its <samp>AssimiLXR</samp> folder. It doesn’t change your Assimil8or presets, samples or other folders, and switching between AssimiLXR and the Rossum software converts or deletes nothing.</p>
+<h4>Front card</h4>
+<table>
+<tr><th><samp>AssimiLXR/</samp></th><td>Your kits, in any folders you like</td></tr>
+<tr><th><samp>AssimiLXR/osc/</samp></th><td>Single-cycle waveforms</td></tr>
+<tr><th><samp>AssimiLXR/transients/</samp></th><td>Transients</td></tr>
+<tr><th><samp>AssimiLXR/glo.cfg</samp></th><td>The voice MIDI channels and notes, as the LXR-02 keeps them; an LXR-02’s file can be copied in</td></tr>
+<tr><th><samp>AssimiLXR/AssimiLXR.cfg</samp></th><td>The Chroma 8 and GM drum channels, Velocity, display, audio input and Kit CV settings, and the kit folder</td></tr>
+</table>
+<p>LXR-02 kits can be copied into <samp>AssimiLXR</samp> straight from an LXR-02 card, folders and all.</p>
+<h4>System card</h4>
+<p>The module’s internal card holds the firmware:</p>
+<table>
+<tr><th><samp>app</samp></th><td>The firmware the module starts</td></tr>
+<tr><th><samp>appold</samp></th><td>The one before it. <b>Load Software</b> and <b>Load from card</b> move <samp>app</samp> here.</td></tr>
+<tr><th><samp>appstock</samp></th><td>The Rossum software, copied on AssimiLXR’s first start and never changed. <b>Stock firmware</b> puts it back.</td></tr>
+</table>
+
+<h3>Support</h3>
+<p>Everything about the sounds works as described in the <a href="https://www.ericasynths.lv/drum-synthesizer-lxr-02-1132/">LXR-02 manual</a>.</p>
+</main>
+
+<footer>
+<p>Problems and questions: <a class="address" href="https://github.com/brandon-tallent/assimilxr/issues">github.com/brandon-tallent/assimilxr/issues</a></p>
+<p>Source code: <a class="address" href="https://github.com/brandon-tallent/assimilxr">github.com/brandon-tallent/assimilxr</a></p>
+<p>AssimiLXR by Brandon Tallent. GPL-3. The LXR sound engine is © Erica Synths, GPL-3. “LXR”, “LXR-02” and “Erica Synths” are trademarks of Erica Synths; “Assimil8or” is a trademark of Rossum Electro-Music.</p>
+</footer>
+</div>
+</body>
+</html>
